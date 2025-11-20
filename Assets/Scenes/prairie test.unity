@@ -20332,7 +20332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: ws://10.0.0.146:3000
+  serverUrl: ws://75.102.253.180:3000
 --- !u!4 &1942390489
 Transform:
   m_ObjectHideFlags: 0
