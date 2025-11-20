@@ -1,50 +1,75 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class rattleSnakeMaster : MonoBehaviour
 {
-    public Slider slider;  // Reference to the UI Slider
-    public Animator animator;          // Reference to the Animator
-    public GameObject plant;
+    [Header("Optional test slider (for local play)")]
+    public Slider testSlider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Animator animator;
+
+    private void Awake()
     {
-        
-        if (slider == null || animator == null)
+        animator = GetComponent<Animator>();
+        if (animator == null)
         {
-            Debug.LogError("Slider or Animator not assigned.");
-            return;
-        }
-
-        slider.minValue = -1;
-        slider.maxValue = 1;
-        slider.wholeNumbers = true;
-
-        slider.onValueChanged.AddListener(OnSliderValueChanged);
-        OnSliderValueChanged(slider.value); // Trigger initial value
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
-        {
-            gameObject.SetActive(false);
-            OnSliderValueChanged(slider.value); //call slider value changed again in case death animation isnt done playing before slider changes to "grow"
+            Debug.LogError($"[rattleSnakeMaster] No Animator found on {name}");
         }
     }
-    void OnSliderValueChanged(float value)
+
+    private void Start()
     {
-        int intValue = Mathf.RoundToInt(value);
+        if (testSlider != null)
+        {
+            testSlider.minValue = -1;
+            testSlider.maxValue = 1;
+            testSlider.wholeNumbers = true;
+
+            testSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            OnSliderValueChanged(testSlider.value);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (testSlider != null)
+        {
+            testSlider.onValueChanged.RemoveListener(OnSliderValueChanged);
+        }
+    }
+
+    // LOCAL slider (editor testing)
+    private void OnSliderValueChanged(float value)
+    {
+        ApplyValue(Mathf.RoundToInt(value), "[rattleSnakeMaster] (local slider)");
+    }
+
+    // REMOTE slider – called by DisplayWebSocket
+    public void OnRemoteSliderUpdate(int value)
+    {
+        if (testSlider != null)
+        {
+            testSlider.SetValueWithoutNotify(value);
+        }
+
+        ApplyValue(value, "[rattleSnakeMaster] (remote)");
+    }
+
+    private void ApplyValue(int intValue, string source)
+    {
+        if (animator == null) return;
+
+        Debug.Log($"{source} {name} received value {intValue}");
+
+        // Friend’s original behaviour:
+        // <= 0 -> die
+        // >  0 -> alive / grow
+
         if (intValue <= 0)
         {
             animator.SetTrigger("TrDie");
-
         }
-        if (intValue > 0)
+        else // > 0
         {
             gameObject.SetActive(true);
         }

@@ -1,81 +1,110 @@
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor.PackageManager;
 using System;
-using NativeWebSocket;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor.ShaderGraph.Serialization;
+using NativeWebSocket;
 
 public class DisplayWebSocket : MonoBehaviour
 {
-    private WebSocket websocket;
+    [Header("WebSocket server (Node.js)")]
+    public string serverUrl = "ws://10.0.0.146:3000";   // change to your laptop's IPv4 later
 
-    [Header("Slider Target")]
-    public Slider targetSlider; // Assign in Inspector
-    public Animator plantAnimator; // For flower state change
+    private WebSocket ws;
 
-    async void Start()
+    private readonly List<nativePlant> nativePlants = new();
+    private readonly List<rattleSnakeMaster> rattlePlants = new();
+
+    [Serializable]
+    private class SliderMessage
     {
-        websocket = new WebSocket("ws://<your-ipv4>:8080");
+        public string type;
+        public int value;
+    }
 
-        websocket.OnOpen += () =>
+    private async void Start()
+    {
+        // Cache all plant controllers once at startup
+        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
+        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
+
+        Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant and {rattlePlants.Count} rattleSnakeMaster scripts.");
+
+        ws = new WebSocket(serverUrl);
+
+        ws.OnOpen += () =>
         {
-            Debug.Log("[WebSocket] Connection open!");
-            websocket.SendText("{"type":"registerDisplay"}");
+            Debug.Log("[DisplayWebSocket] Connected to WebSocket server");
+
+            // Optional register message (keep same JSON shape as before)
+            var register = new SliderMessage { type = "registerDisplay", value = 0 };
+            var json = JsonUtility.ToJson(register);
+            ws.SendText(json);
         };
 
-        websocket.OnError += (e) =>
+        ws.OnError += err =>
         {
-            Debug.LogError("[WebSocket Error] " + e);
+            Debug.LogError("[DisplayWebSocket] Error: " + err);
         };
 
-        websocket.OnClose += (e) =>
+        ws.OnClose += code =>
         {
-            Debug.Log("[WebSocket] Connection closed.");
+            Debug.Log("[DisplayWebSocket] WebSocket closed with code: " + code);
         };
 
-        websocket.OnMessage += (bytes) =>
+        ws.OnMessage += bytes =>
         {
-            string message = System.Text.Encoding.UTF8.GetString(bytes);
-            Debug.Log("[WebSocket] Message received: " + message);
+            var json = Encoding.UTF8.GetString(bytes);
+            Debug.Log("[DisplayWebSocket] Raw message: " + json);
 
             try
             {
-                JSONObject json = new JSONObject(message);
-                if (json.HasField("type"))
+                var msg = JsonUtility.FromJson<SliderMessage>(json);
+                if (msg != null && msg.type == "slider")
                 {
-                    string type = json["type"].str;
-                    if (type == "sliderUpdate" && json.HasField("value"))
-                    {
-                        float value = json["value"].f;
-                        Debug.Log("[WebSocket] Setting slider value to: " + value);
-                        targetSlider.value = value;
-                    }
+                    int v = Mathf.Clamp(msg.value, -1, 1);
+                    DispatchSliderValue(v);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError("[WebSocket] JSON parse error: " + ex.Message);
+                Debug.LogWarning("[DisplayWebSocket] Failed to parse message: " + ex.Message);
             }
         };
 
-        await websocket.Connect();
+        await ws.Connect();
     }
 
-    void Update()
+    private void DispatchSliderValue(int value)
     {
-        websocket?.DispatchMessageQueue();
+        Debug.Log($"[DisplayWebSocket] Dispatching slider value {value}");
+
+        foreach (var p in nativePlants)
+        {
+            if (p != null)
+                p.OnRemoteSliderUpdate(value);
+        }
+
+        foreach (var p in rattlePlants)
+        {
+            if (p != null)
+                p.OnRemoteSliderUpdate(value);
+        }
     }
 
-    async void OnApplicationQuit()
+    private void Update()
     {
-        await websocket.Close();
+        // Required for NativeWebSocket in non-WebGL builds
+#if !UNITY_WEBGL || UNITY_EDITOR
+        ws?.DispatchMessageQueue();
+#endif
+    }
+
+    private async void OnApplicationQuit()
+    {
+        if (ws != null)
+        {
+            await ws.Close();
+            ws = null;
+        }
     }
 }
-
-
-
-
-
-

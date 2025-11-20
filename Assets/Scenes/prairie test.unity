@@ -141,9 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 39617945}
-  plant: {fileID: 39617942}
+  testSlider: {fileID: 0}
 --- !u!95 &39617945
 Animator:
   serializedVersion: 7
@@ -188,9 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 57144422}
-  plant: {fileID: 57144419}
+  testSlider: {fileID: 0}
 --- !u!95 &57144422
 Animator:
   serializedVersion: 7
@@ -230,9 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 98016156}
-  plant: {fileID: 98016154}
+  testSlider: {fileID: 0}
 --- !u!95 &98016156
 Animator:
   serializedVersion: 7
@@ -1169,9 +1163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 482734422}
-  plant: {fileID: 482734419}
+  testSlider: {fileID: 0}
 --- !u!95 &482734422
 Animator:
   serializedVersion: 7
@@ -1361,9 +1353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 607874920}
-  plant: {fileID: 607874917}
+  testSlider: {fileID: 0}
 --- !u!95 &607874920
 Animator:
   serializedVersion: 7
@@ -1442,9 +1432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 672788890}
-  plant: {fileID: 672788887}
+  testSlider: {fileID: 0}
 --- !u!95 &672788890
 Animator:
   serializedVersion: 7
@@ -1489,9 +1477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 717804315}
-  plant: {fileID: 717804312}
+  testSlider: {fileID: 0}
 --- !u!95 &717804315
 Animator:
   serializedVersion: 7
@@ -1702,9 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 754346576}
-  plant: {fileID: 754346573}
+  testSlider: {fileID: 0}
 --- !u!95 &754346576
 Animator:
   serializedVersion: 7
@@ -1832,9 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 810591010}
-  plant: {fileID: 810591007}
+  testSlider: {fileID: 0}
 --- !u!95 &810591010
 Animator:
   serializedVersion: 7
@@ -2011,9 +1993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 998300958}
-  plant: {fileID: 998300955}
+  testSlider: {fileID: 0}
 --- !u!95 &998300958
 Animator:
   serializedVersion: 7
@@ -2418,9 +2398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1450152408}
-  plant: {fileID: 1450152405}
+  testSlider: {fileID: 0}
 --- !u!95 &1450152408
 Animator:
   serializedVersion: 7
@@ -2618,9 +2596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1633151971}
-  plant: {fileID: 1633151968}
+  testSlider: {fileID: 0}
 --- !u!95 &1633151971
 Animator:
   serializedVersion: 7
@@ -2665,9 +2641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5627030e226265a4ba0840a1e954972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1660962760}
-  plant: {fileID: 1660962757}
+  testSlider: {fileID: 0}
 --- !u!95 &1660962760
 Animator:
   serializedVersion: 7
@@ -2972,9 +2946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1867892718}
-  plant: {fileID: 1867892715}
+  testSlider: {fileID: 0}
 --- !u!95 &1867892718
 Animator:
   serializedVersion: 7
@@ -3143,9 +3115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1926833533}
-  plant: {fileID: 1926833530}
+  testSlider: {fileID: 0}
 --- !u!1001 &1929222501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3229,6 +3199,51 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1867892717}
   m_SourcePrefab: {fileID: 100100000, guid: 08d43d1effd23af469f958aed112355f, type: 3}
+--- !u!1 &1942390487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942390489}
+  - component: {fileID: 1942390488}
+  m_Layer: 0
+  m_Name: WebSocketManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942390488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942390487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverUrl: ws://10.0.0.146:3000
+--- !u!4 &1942390489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942390487}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.635273, y: 4.8728967, z: 1.4518852}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951003191 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 08d43d1effd23af469f958aed112355f, type: 3}
@@ -3251,9 +3266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb9044a8a3a60b41b59407982f1db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1691887741}
-  animator: {fileID: 1951003194}
-  plant: {fileID: 1951003191}
+  testSlider: {fileID: 0}
 --- !u!95 &1951003194
 Animator:
   serializedVersion: 7
@@ -3646,3 +3659,4 @@ SceneRoots:
   - {fileID: 406265334}
   - {fileID: 401974892}
   - {fileID: 663805596}
+  - {fileID: 1942390489}

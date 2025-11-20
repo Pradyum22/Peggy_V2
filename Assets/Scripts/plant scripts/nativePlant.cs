@@ -1,52 +1,80 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class nativePlant : MonoBehaviour
 {
-    public Slider slider;  // Reference to the UI Slider
-    public Animator animator;          // Reference to the Animator
-    public GameObject plant;
+    [Header("Optional test slider (for local play)")]
+    public Slider testSlider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Animator animator;
+
+    private void Awake()
     {
-
-        if (slider == null || animator == null)
+        animator = GetComponent<Animator>();
+        if (animator == null)
         {
-            Debug.LogError("Slider or Animator not assigned.");
-            return;
-        }
-
-        slider.minValue = -1;
-        slider.maxValue = 1;
-        slider.wholeNumbers = true;
-
-        slider.onValueChanged.AddListener(OnSliderValueChanged);
-        OnSliderValueChanged(slider.value); // Trigger initial value
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
-        {
-            gameObject.SetActive(false);
-            OnSliderValueChanged(slider.value); // in case slider was moved during death animation
-
+            Debug.LogError($"[nativePlant] No Animator found on {name}");
         }
     }
-    void OnSliderValueChanged(float value)
+
+    private void Start()
     {
-        int intValue = Mathf.RoundToInt(value);
+        // Optional local slider for testing in the editor
+        if (testSlider != null)
+        {
+            testSlider.minValue = -1;
+            testSlider.maxValue = 1;
+            testSlider.wholeNumbers = true;
+
+            testSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            OnSliderValueChanged(testSlider.value);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (testSlider != null)
+        {
+            testSlider.onValueChanged.RemoveListener(OnSliderValueChanged);
+        }
+    }
+
+    // LOCAL slider (only for testing in the editor)
+    private void OnSliderValueChanged(float value)
+    {
+        ApplyValue(Mathf.RoundToInt(value), "[nativePlant] (local slider)");
+    }
+
+    // REMOTE slider – called by DisplayWebSocket
+    public void OnRemoteSliderUpdate(int value)
+    {
+        // Optionally keep the test slider in sync (without triggering its callback)
+        if (testSlider != null)
+        {
+            testSlider.SetValueWithoutNotify(value);
+        }
+
+        ApplyValue(value, "[nativePlant] (remote)");
+    }
+
+    private void ApplyValue(int intValue, string source)
+    {
+        if (animator == null) return;
+
+        Debug.Log($"{source} {name} received value {intValue}");
+
+        // Your friend’s original logic:
+        // < 0  -> die
+        // > 0  -> (re)appear / grow
+        // 0    -> idle (do nothing special)
+
         if (intValue < 0)
         {
             animator.SetTrigger("TrDie");
-            
         }
-        if (intValue > 0)
+        else if (intValue > 0)
         {
+            // Make sure the plant is visible; animator will handle grow/idle
             gameObject.SetActive(true);
         }
     }
