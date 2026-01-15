@@ -29,6 +29,14 @@ public class rattleSnakeMaster : MonoBehaviour
             OnSliderValueChanged(testSlider.value);
         }
     }
+    private void Update()
+    {
+        if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
 
     private void OnDestroy()
     {
@@ -44,7 +52,7 @@ public class rattleSnakeMaster : MonoBehaviour
         ApplyValue(Mathf.RoundToInt(value), "[rattleSnakeMaster] (local slider)");
     }
 
-    // REMOTE slider – called by DisplayWebSocket
+    // REMOTE slider ï¿½ called by DisplayWebSocket
     public void OnRemoteSliderUpdate(int value)
     {
         if (testSlider != null)
@@ -61,7 +69,7 @@ public class rattleSnakeMaster : MonoBehaviour
 
         Debug.Log($"{source} {name} received value {intValue}");
 
-        // Friend’s original behaviour:
+        // Friendï¿½s original behaviour:
         // <= 0 -> die
         // >  0 -> alive / grow
 

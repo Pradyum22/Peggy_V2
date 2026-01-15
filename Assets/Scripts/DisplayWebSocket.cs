@@ -7,7 +7,7 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://10.0.0.146:3000";   // change to your laptop's IPv4 later
+    public string serverUrl = "ws://192.168.30.224:3000";   // change to your laptop's IPv4 later
 
     private WebSocket ws;
 

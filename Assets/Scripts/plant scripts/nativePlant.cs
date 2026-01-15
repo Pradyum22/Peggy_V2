@@ -31,6 +31,14 @@ public class nativePlant : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnDestroy()
     {
         if (testSlider != null)
@@ -45,7 +53,7 @@ public class nativePlant : MonoBehaviour
         ApplyValue(Mathf.RoundToInt(value), "[nativePlant] (local slider)");
     }
 
-    // REMOTE slider – called by DisplayWebSocket
+    // REMOTE slider ï¿½ called by DisplayWebSocket
     public void OnRemoteSliderUpdate(int value)
     {
         // Optionally keep the test slider in sync (without triggering its callback)
@@ -63,7 +71,7 @@ public class nativePlant : MonoBehaviour
 
         Debug.Log($"{source} {name} received value {intValue}");
 
-        // Your friend’s original logic:
+        // Your friendï¿½s original logic:
         // < 0  -> die
         // > 0  -> (re)appear / grow
         // 0    -> idle (do nothing special)
