@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: watershader Variant
-  m_Shader: {fileID: -6465566751694194690, guid: 8ecf7b48b91a9e64db7dd429205345b1, type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: 8ecf7b48b91a9e64db7dd429205345b1, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: dd97de70edf8a4141bee758a2efe7ff8, type: 3}
+  m_Parent: {fileID: 2100000, guid: 19ac4fcfcf42b4344a6c7d97a5cd61fc, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -26,9 +26,17 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - Vector1_687f54e8c371429f86b9eaab0e7dfe3e: 0.307
+    - Vector1_6c82dffdd68049bcb019d3a9c64c92a0: 0.21
+    - Vector1_6f56a0970372485390c6587863c2374e: 0
+    - Vector1_7273530c27a34c9f8ee5723b84f96baa: 1
+    - Vector1_dada42ebfac44076897b6de67441ba32: 0
     - _QueueControl: 0
-    - _fill: 0.45
-    m_Colors: []
+    - _fill: 0.6
+    m_Colors:
+    - Color_36218622185947c6a5ae36366d8e21d8: {r: 0.27049947, g: 0.45572403, b: 0.61006284, a: 0.9607843}
+    - Color_93e06cd551a5449091bcde90b46765a0: {r: 0.091788195, g: 0.47753605, b: 0.57232696, a: 0.19607843}
+    - Vector2_4351ac2be1d74054986ec5378db9d578: {r: 5, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8775374576645993717
