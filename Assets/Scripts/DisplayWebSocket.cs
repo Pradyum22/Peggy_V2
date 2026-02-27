@@ -7,38 +7,42 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://192.168.30.224:3000";   // change to your laptop's IPv4 later
+    public string serverUrl = "ws://192.168.30.224:3000";
 
     private WebSocket ws;
 
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
+    private RainController rainController;
 
     [Serializable]
     private class SliderMessage
     {
         public string type;
+        public string factor;   // NEW
         public int value;
     }
 
     private async void Start()
     {
-        // Cache all plant controllers once at startup
+        // Cache plant controllers
         nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
 
-        Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant and {rattlePlants.Count} rattleSnakeMaster scripts.");
+        // Cache RainController
+        rainController = FindFirstObjectByType<RainController>();
+
+        Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
+        Debug.Log($"[DisplayWebSocket] RainController found: {rainController != null}");
 
         ws = new WebSocket(serverUrl);
 
         ws.OnOpen += () =>
         {
-            Debug.Log("[DisplayWebSocket] Connected to WebSocket server");
+            Debug.Log("[DisplayWebSocket] Connected");
 
-            // Optional register message (keep same JSON shape as before)
             var register = new SliderMessage { type = "registerDisplay", value = 0 };
-            var json = JsonUtility.ToJson(register);
-            ws.SendText(json);
+            ws.SendText(JsonUtility.ToJson(register));
         };
 
         ws.OnError += err =>
@@ -48,7 +52,7 @@ public class DisplayWebSocket : MonoBehaviour
 
         ws.OnClose += code =>
         {
-            Debug.Log("[DisplayWebSocket] WebSocket closed with code: " + code);
+            Debug.Log("[DisplayWebSocket] Closed: " + code);
         };
 
         ws.OnMessage += bytes =>
@@ -59,25 +63,52 @@ public class DisplayWebSocket : MonoBehaviour
             try
             {
                 var msg = JsonUtility.FromJson<SliderMessage>(json);
+
                 if (msg != null && msg.type == "slider")
                 {
                     int v = Mathf.Clamp(msg.value, -1, 1);
-                    DispatchSliderValue(v);
+                    DispatchByFactor(msg.factor, v);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("[DisplayWebSocket] Failed to parse message: " + ex.Message);
+                Debug.LogWarning("[DisplayWebSocket] Parse failed: " + ex.Message);
             }
         };
 
         await ws.Connect();
     }
 
-    private void DispatchSliderValue(int value)
+    private void DispatchByFactor(string factor, int value)
     {
-        Debug.Log($"[DisplayWebSocket] Dispatching slider value {value}");
+        Debug.Log($"[DisplayWebSocket] Factor: {factor}, Value: {value}");
 
+        // DEFAULT behavior (backwards compatibility)
+        if (string.IsNullOrEmpty(factor))
+        {
+            DispatchPlants(value);
+            return;
+        }
+
+        switch (factor)
+        {
+            case "fire":
+                DispatchPlants(value);
+                break;
+
+            case "flowers":
+                DispatchPlants(value);
+                break;
+
+            case "rain":
+                if (rainController != null)
+                    rainController.SetRainState(value);
+                break;
+        }
+    }
+
+    private void DispatchPlants(int value)
+    {
         foreach (var p in nativePlants)
         {
             if (p != null)
@@ -93,7 +124,6 @@ public class DisplayWebSocket : MonoBehaviour
 
     private void Update()
     {
-        // Required for NativeWebSocket in non-WebGL builds
 #if !UNITY_WEBGL || UNITY_EDITOR
         ws?.DispatchMessageQueue();
 #endif
