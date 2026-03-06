@@ -14,6 +14,9 @@ public class DisplayWebSocket : MonoBehaviour
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
     private RainController rainController;
+    private readonly List<root_static> rootStatics = new();
+    private readonly List<root3_growdie> rootGrowDie = new();
+    private ButterflyController butterflyController;
 
     [Serializable]
     private class SliderMessage
@@ -28,12 +31,17 @@ public class DisplayWebSocket : MonoBehaviour
         // Cache plant controllers
         nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
+        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        rootGrowDie.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+
 
         // Cache RainController
         rainController = FindFirstObjectByType<RainController>();
+        butterflyController = FindFirstObjectByType<ButterflyController>();
 
         Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
         Debug.Log($"[DisplayWebSocket] RainController found: {rainController != null}");
+        Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} root_static and {rootGrowDie.Count} root3_growdie.");
 
         ws = new WebSocket(serverUrl);
 
@@ -101,8 +109,28 @@ public class DisplayWebSocket : MonoBehaviour
                 break;
 
             case "rain":
+
+                // Rain VFX
                 if (rainController != null)
                     rainController.SetRainState(value);
+                // Butterfly VFX
+                if (butterflyController != null)
+                    butterflyController.SetButterflyState(value);
+
+                // Root swelling / shrinking controller
+                foreach (var r in rootStatics)
+                {
+                    if (r != null)
+                        r.OnRemoteSliderUpdate(value);
+                }
+
+                // Root grow / die controller
+                foreach (var r in rootGrowDie)
+                {
+                    if (r != null)
+                        r.OnRemoteSliderUpdate(value);
+                }
+
                 break;
         }
     }
