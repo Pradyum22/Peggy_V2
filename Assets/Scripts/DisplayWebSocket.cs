@@ -10,7 +10,7 @@ public class DisplayWebSocket : MonoBehaviour
     public string serverUrl = "ws://192.168.30.224:3000";
 
     private WebSocket ws;
-
+    [SerializeField] private FireController fireController;
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
     private RainController rainController;
@@ -93,7 +93,8 @@ public class DisplayWebSocket : MonoBehaviour
         switch (factor)
         {
             case "fire":
-                DispatchPlants(value);
+                if (fireController != null)
+                    fireController.UpdateFire(value);
                 break;
 
             case "flowers":
