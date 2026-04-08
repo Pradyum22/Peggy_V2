@@ -11,8 +11,14 @@ public class DisplayWebSocket : MonoBehaviour
 
     private WebSocket ws;
     [SerializeField] private FireController fireController;
+    [SerializeField] private ButterflyController butterflyController;
+
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
+
+    private readonly List<root_static> rootStatics = new();
+    private readonly List<root3_growdie> rootGrowDies = new();
+
     private RainController rainController;
 
     [Serializable]
@@ -29,9 +35,14 @@ public class DisplayWebSocket : MonoBehaviour
         nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
 
+        // Cache Root Controllers
+        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
+        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
+
         // Cache RainController
         rainController = FindFirstObjectByType<RainController>();
 
+        Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
         Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
         Debug.Log($"[DisplayWebSocket] RainController found: {rainController != null}");
 
@@ -102,8 +113,27 @@ public class DisplayWebSocket : MonoBehaviour
                 break;
 
             case "rain":
+
                 if (rainController != null)
                     rainController.SetRainState(value);
+
+                // Trigger root animations
+                foreach (var r in rootStatics)
+                {
+                    if (r != null)
+                        r.OnRemoteSliderUpdate(value);
+                }
+
+                foreach (var r in rootGrowDies)
+                {
+                    if (r != null)
+                        r.OnRemoteSliderUpdate(value);
+                }
+
+                // Trigger butterfly system
+                if (butterflyController != null)
+                    butterflyController.SetButterflyState(value);
+
                 break;
         }
     }
