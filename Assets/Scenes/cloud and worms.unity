@@ -182,7 +182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &80991687
 Transform:
   m_ObjectHideFlags: 0
@@ -5462,24 +5462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fe02b24293bf44f9de8064796b2cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireLow: {fileID: 293126773}
-  fireMedium: {fileID: 293126774}
-  fireHigh: {fileID: 293126775}
---- !u!198 &293126773 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3419291456746354802, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
-  m_PrefabInstance: {fileID: 293126770}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &293126774 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4386664224323069875, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
-  m_PrefabInstance: {fileID: 293126770}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &293126775 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8503043426130939413, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
-  m_PrefabInstance: {fileID: 293126770}
-  m_PrefabAsset: {fileID: 0}
+  fireSystems: []
 --- !u!1 &304086383
 GameObject:
   m_ObjectHideFlags: 0
