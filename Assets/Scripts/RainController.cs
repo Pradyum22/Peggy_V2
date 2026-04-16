@@ -39,7 +39,7 @@ public class RainController : MonoBehaviour
                 break;
 
             case 2: // Too much rain
-                ApplyRainSettings(13f, 11f, 0.46f);
+                ApplyRainSettings(140f, 13f, 0.55f);
                 break;
         }
     }
