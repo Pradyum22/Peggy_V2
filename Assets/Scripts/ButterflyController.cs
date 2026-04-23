@@ -21,11 +21,11 @@ public class ButterflyController : MonoBehaviour
         switch (state)
         {
             case -1: // Very little rain
-                SetEmission(9f);   // lots of butterflies
+                SetEmission(4f);   // lots of butterflies
                 break;
 
             case 0: // Moderate rain
-                SetEmission(5f);   // few butterflies
+                SetEmission(2f);   // few butterflies
                 break;
 
             case 1: // Heavy rain

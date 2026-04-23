@@ -13,6 +13,10 @@ public class DisplayWebSocket : MonoBehaviour
     [SerializeField] private FireController fireController;
     [SerializeField] private ButterflyController butterflyController;
 
+    public WaterLevelController waterController;
+    public WormController wormController;
+    public SkyController skyController;
+
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
 
@@ -36,8 +40,8 @@ public class DisplayWebSocket : MonoBehaviour
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
 
         // Cache Root Controllers
-        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
-        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
+        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsSortMode.None));
+        rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsSortMode.None));
 
         // Cache RainController
         rainController = FindFirstObjectByType<RainController>();
@@ -93,6 +97,7 @@ public class DisplayWebSocket : MonoBehaviour
     private void DispatchByFactor(string factor, int value)
     {
         Debug.Log($"[DisplayWebSocket] Factor: {factor}, Value: {value}");
+        Debug.Log("RAIN SIGNAL RECEIVED: " + value);
 
         // DEFAULT behavior (backwards compatibility)
         if (string.IsNullOrEmpty(factor))
@@ -117,22 +122,25 @@ public class DisplayWebSocket : MonoBehaviour
                 if (rainController != null)
                     rainController.SetRainState(value);
 
-                // Trigger root animations
                 foreach (var r in rootStatics)
-                {
                     if (r != null)
                         r.OnRemoteSliderUpdate(value);
-                }
 
                 foreach (var r in rootGrowDies)
-                {
                     if (r != null)
                         r.OnRemoteSliderUpdate(value);
-                }
 
-                // Trigger butterfly system
                 if (butterflyController != null)
                     butterflyController.SetButterflyState(value);
+
+                if (skyController != null)
+                    skyController.SetRainState(value);
+
+                if (waterController != null)
+                    waterController.SetWaterLevel(value);
+
+                if (wormController != null)
+                    wormController.SetWormState(value);
 
                 break;
         }
