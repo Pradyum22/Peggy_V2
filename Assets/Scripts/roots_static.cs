@@ -76,11 +76,12 @@ public class root_static : MonoBehaviour
         // > 0  -> (re)appear / grow
         // 0    -> idle (do nothing special)
         
-        if (intValue > 0)
+        if (intValue < 0)
         {
             animator.SetTrigger("shrink");
         }
-        else if (intValue < 0)
+       
+        else if (intValue > 0)
         {
             // Make sure the plant is visible; animator will handle grow/idle
             animator.SetTrigger("swell");
