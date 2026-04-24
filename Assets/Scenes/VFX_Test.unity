@@ -27060,7 +27060,7 @@ MonoBehaviour:
   butterflyController: {fileID: 1350011176}
   waterController: {fileID: 633289221}
   wormController: {fileID: 268801924}
-  skyController: {fileID: 0}
+  skyController: {fileID: 1312581639}
 --- !u!4 &1942390489
 Transform:
   m_ObjectHideFlags: 0
