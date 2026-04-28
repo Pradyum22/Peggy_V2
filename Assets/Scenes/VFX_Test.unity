@@ -22662,7 +22662,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033f02f1325f174e85d9a42be237f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rainySky: {fileID: 889748381}
+  rainySkyRenderer: {fileID: 889748384}
+  clouds: {fileID: 1357988034}
+  fadeSpeed: 0.4
 --- !u!1001 &1314179175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27055,7 +27057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: ws://75.102.235.202:3000
+  serverUrl: ws://10.0.0.147:3000
   fireController: {fileID: 293126772}
   butterflyController: {fileID: 1350011176}
   waterController: {fileID: 633289221}
