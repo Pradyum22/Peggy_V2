@@ -211,7 +211,7 @@ Animator:
   m_GameObject: {fileID: 44113514}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7311e9677ef055a4084f9e3b24bf4085, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7350,7 +7350,7 @@ Animator:
   m_GameObject: {fileID: 400181824}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b81b7515c89efd45b0226da74f5c443, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -10298,7 +10298,7 @@ Animator:
   m_GameObject: {fileID: 727226627}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b81b7515c89efd45b0226da74f5c443, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -15971,7 +15971,7 @@ Animator:
   m_GameObject: {fileID: 886327905}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7311e9677ef055a4084f9e3b24bf4085, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -23153,7 +23153,7 @@ Animator:
   m_GameObject: {fileID: 1314179176}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b81b7515c89efd45b0226da74f5c443, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -23398,7 +23398,7 @@ Animator:
   m_GameObject: {fileID: 1332951413}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7311e9677ef055a4084f9e3b24bf4085, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -26125,7 +26125,7 @@ Animator:
   m_GameObject: {fileID: 1792412111}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7311e9677ef055a4084f9e3b24bf4085, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -26531,7 +26531,7 @@ Animator:
   m_GameObject: {fileID: 1846984014}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b81b7515c89efd45b0226da74f5c443, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -27574,7 +27574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: ws://10.0.0.147:3000
+  serverUrl: ws://192.168.1.69
   fireController: {fileID: 293126772}
   butterflyController: {fileID: 1350011176}
   waterController: {fileID: 633289221}
