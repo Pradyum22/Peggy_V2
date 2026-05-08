@@ -26,15 +26,15 @@ public class RainController : MonoBehaviour
         switch (state)
         {
             case -1: // Light rain
-                ApplyRainSettings(8f, 6f, 0.35f);
+                ApplyRainSettings(0f, 0f, 0f);
                 break;
 
             case 0: // Moderate rain
-                ApplyRainSettings(60f, 10f, 0.45f);
+                ApplyRainSettings(30f, 7f, 0.45f);
                 break;
 
             case 1: // Heavy rain
-                ApplyRainSettings(110f, 13f, 0.55f);
+                ApplyRainSettings(35f, 7f, 0.50f);
                 break;
         }
     }
@@ -45,7 +45,7 @@ public class RainController : MonoBehaviour
         backEmission.rateOverTime = emissionRate * 0.6f;
 
         groundMain.startSpeed = fallSpeed;
-        backMain.startSpeed = fallSpeed * 0.8f;
+        backMain.startSpeed = fallSpeed * 0.7f;
 
         groundMain.startSizeMultiplier = sizeMultiplier;
         backMain.startSizeMultiplier = sizeMultiplier * 0.7f;
