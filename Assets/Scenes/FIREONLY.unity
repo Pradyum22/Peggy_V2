@@ -53667,7 +53667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 520732944627373048, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1139718099482238546, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
       propertyPath: m_Name
@@ -69641,6 +69641,8 @@ GameObject:
   - component: {fileID: 664795655}
   - component: {fileID: 664795654}
   - component: {fileID: 664795653}
+  - component: {fileID: 664795657}
+  - component: {fileID: 664795656}
   m_Layer: 0
   m_Name: Fire_VFX
   m_TagString: Untagged
@@ -69712,9 +69714,21 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: -0, y: 0, z: 0}
+        m_Name: Transform_angles
+        m_Overridden: 1
+      - m_Value: {x: 0.042404965, y: 0.17211282, z: 0.22299957}
+        m_Name: Transform_position
+        m_Overridden: 1
+      - m_Value: {x: 0.5, y: 0.5, z: 0.5}
+        m_Name: Transform_scale
+        m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 40.31027, y: 8.169838, z: 0.19014323, w: 0.94509804}
+        m_Name: Fire_Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -69726,7 +69740,10 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+        m_Name: Cube_Renderer
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!4 &664795655
@@ -69744,6 +69761,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 914228383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &664795656
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664795652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fdfea1f838247c40921a07afedde962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Space: 0
+  m_Property:
+    m_Name: Transform
+  Target: {fileID: 189169334}
+--- !u!114 &664795657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664795652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdafc37f32b176349b1684c4455b98e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ExecuteInEditor: 1
+  m_Bindings:
+  - {fileID: 664795656}
+  m_VisualEffect: {fileID: 664795654}
 --- !u!1 &728713843
 GameObject:
   m_ObjectHideFlags: 0
@@ -98817,7 +98866,7 @@ Transform:
   m_GameObject: {fileID: 914228382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.26259503, y: 0.8619943, z: -3.8898048}
+  m_LocalPosition: {x: -0.078, y: 0.958, z: -8.187}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -98837,7 +98886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f72d3cc6421994790298bca68135b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinnedMesh: {fileID: 0}
+  Mesh: {fileID: 189169332}
+  VFXGraph: {fileID: 664795654}
   dissolveRate: 0.0125
   refreshRate: 0.025
 --- !u!1 &1005922879

@@ -1,20 +1,22 @@
 using System.Collections;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class DissolveShaderScript : MonoBehaviour
 {
-    public SkinnedMeshRenderer skinnedMesh;
+    public MeshRenderer Mesh;
+    public VisualEffect VFXGraph;
     public float dissolveRate = 0.0125f;
     public float refreshRate = 0.025f;
 
     private Material[] skinnedMaterials;
     void Start()
     {
-        if (skinnedMesh != null)
+        if (Mesh != null)
         {
             {
-                skinnedMaterials = skinnedMesh.materials;
+                skinnedMaterials = Mesh.materials;
             }
         }
     }
@@ -31,7 +33,13 @@ public class DissolveShaderScript : MonoBehaviour
     }
     IEnumerator DissolveCo()
     {
+        if (VFXGraph != null)
         {
+            VFXGraph.Play();
+        }
+
+
+        
             if (skinnedMaterials.Length > 0)
             {
                 float counter = 0;
@@ -48,6 +56,6 @@ public class DissolveShaderScript : MonoBehaviour
                 }
             }
 
-        }
+        
     }
 }
