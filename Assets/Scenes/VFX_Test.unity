@@ -1921,6 +1921,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1873830183}
+  - {fileID: 537272904}
   m_Father: {fileID: 401974892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &213420194
@@ -1935,9 +1936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403ad3a705410c449a7afbd578278b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newMaterial: {fileID: 2100000, guid: a18ec81841297f04ba7a8a54d641c83b, type: 2}
-  DryGrassRender: {fileID: 1873830185}
+  dryGrassRenderer: {fileID: 1873830185}
   fadeSpeed: 0.4
+  dryGrassDelay: 3
 --- !u!1 &233414208
 GameObject:
   m_ObjectHideFlags: 0
@@ -8667,7 +8668,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1312581638}
-  - {fileID: 537272904}
   - {fileID: 213420193}
   - {fileID: 1351747160}
   - {fileID: 2018655331}
@@ -10278,7 +10278,6 @@ GameObject:
   - component: {fileID: 537272903}
   - component: {fileID: 537272902}
   - component: {fileID: 537272901}
-  - component: {fileID: 537272905}
   m_Layer: 0
   m_Name: grass
   m_TagString: Untagged
@@ -10369,28 +10368,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537272900}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9999431, z: -0.010674745, w: 0}
-  m_LocalPosition: {x: -0.4815232, y: -5.35, z: -6.006136}
-  m_LocalScale: {x: 3.3568158, y: 1, z: 1.1798}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 401974892}
+  m_Father: {fileID: 213420193}
   m_LocalEulerAnglesHint: {x: 1.223, y: 180, z: 0}
---- !u!114 &537272905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537272900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 403ad3a705410c449a7afbd578278b2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  newMaterial: {fileID: 2100000, guid: a18ec81841297f04ba7a8a54d641c83b, type: 2}
-  DryGrassRender: {fileID: 0}
-  fadeSpeed: 0.4
 --- !u!1 &551515359
 GameObject:
   m_ObjectHideFlags: 0
@@ -31288,7 +31272,7 @@ Transform:
   m_GameObject: {fileID: 1873830182}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31339,7 +31323,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a18ec81841297f04ba7a8a54d641c83b, type: 2}
+  - {fileID: 2100000, guid: 03690f8be58314b48be8da6e5a0dad46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32491,12 +32475,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: ws://10.0.0.30:3000
+  serverUrl: ws://10.0.0.147:3000
   fireController: {fileID: 293126772}
   butterflyController: {fileID: 1350011176}
   waterController: {fileID: 633289221}
   wormController: {fileID: 268801924}
   skyController: {fileID: 1312581639}
+  grassController: {fileID: 213420194}
 --- !u!4 &1942390489
 Transform:
   m_ObjectHideFlags: 0

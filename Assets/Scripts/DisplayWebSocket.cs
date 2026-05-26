@@ -16,6 +16,7 @@ public class DisplayWebSocket : MonoBehaviour
     public WaterLevelController waterController;
     public WormController wormController;
     public SkyController skyController;
+    public Texture_Change grassController;
 
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
@@ -135,6 +136,9 @@ public class DisplayWebSocket : MonoBehaviour
 
                 if (skyController != null)
                     skyController.SetRainState(value);
+
+                if (grassController != null)
+                    grassController.ChangeMaterial(value);
 
                 if (waterController != null)
                     waterController.SetWaterLevel(value);

@@ -1,52 +1,70 @@
 using UnityEngine;
+using System.Collections;
 
 public class Texture_Change : MonoBehaviour
 {
+    [Header("Dry Grass Material")]
+    public Renderer dryGrassRenderer;
 
-    public Material newMaterial;
-    public Renderer DryGrassRender;
+    [Header("Fade Settings")]
     public float fadeSpeed = 0.4f;
+
+    [Header("Drought Delay")]
+    public float dryGrassDelay = 3f;
+
+    private Material dryMaterial;
 
     private float targetAlpha = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Coroutine delayRoutine;
 
     void Start()
     {
-        newMaterial = DryGrassRender.material;
+        dryMaterial = dryGrassRenderer.material;
 
-        Color c = newMaterial.color;
+        Color c = dryMaterial.color;
         c.a = 0f;
-        newMaterial.color = c;
+        dryMaterial.color = c;
     }
+
     public void ChangeMaterial(int state)
     {
-        Renderer rend = GetComponent<Renderer>();
+        // Stop previous delay coroutine
+        if (delayRoutine != null)
+        {
+            StopCoroutine(delayRoutine);
+        }
 
+        // DROUGHT
         if (state == -1)
         {
-            targetAlpha = 0f;
-
+            delayRoutine = StartCoroutine(FadeDryGrassAfterDelay());
         }
-        else if (state == 0)
+
+        // NORMAL / HEAVY RAIN
+        else
         {
             targetAlpha = 0f;
-
         }
-        else if (state == 1)
-        {
-            targetAlpha = 1f;
-
-        }
-
     }
+
+    IEnumerator FadeDryGrassAfterDelay()
+    {
+        yield return new WaitForSeconds(dryGrassDelay);
+
+        targetAlpha = 1f;
+    }
+
     void Update()
     {
-        Color c = newMaterial.color;
+        Color c = dryMaterial.color;
 
-        c.a = Mathf.MoveTowards(c.a, targetAlpha, fadeSpeed * Time.deltaTime);
+        c.a = Mathf.MoveTowards(
+            c.a,
+            targetAlpha,
+            fadeSpeed * Time.deltaTime
+        );
 
-        newMaterial.color = c;
+        dryMaterial.color = c;
     }
-
 }
