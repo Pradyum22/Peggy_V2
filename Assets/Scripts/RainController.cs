@@ -25,29 +25,59 @@ public class RainController : MonoBehaviour
     {
         switch (state)
         {
-            case -1: // Light rain
-                ApplyRainSettings(0f, 0f, 0f);
+            case -1: // No rain
+                ApplyRainSettings(
+                    0f,     // ground amount
+                    0f,     // back amount
+                    0f,     // ground speed
+                    0f,     // back speed
+                    0f,     // ground size
+                    0f      // back size
+                );
                 break;
 
-            case 0: // Moderate rain
-                ApplyRainSettings(30f, 7f, 0.45f);
+            case 0: // Medium rain
+                ApplyRainSettings(
+                    25f,    // ground amount
+                    17f,    // back amount
+                    2f,     // ground speed
+                    1f,   // back speed
+                    0.05f,  // ground size
+                    0.15f   // back size
+                );
                 break;
 
             case 1: // Heavy rain
-                ApplyRainSettings(35f, 7f, 0.50f);
+                ApplyRainSettings(
+                    65f,    // ground amount
+                    55f,    // back amount
+                    3.4f,    // ground speed
+                    1.2f,     // back speed
+                    0.2f,  // ground size
+                    0.25f   // back size
+                );
                 break;
         }
     }
 
-    void ApplyRainSettings(float emissionRate, float fallSpeed, float sizeMultiplier)
+    void ApplyRainSettings(
+        float groundEmissionRate,
+        float backEmissionRate,
+        float groundSpeed,
+        float backSpeed,
+        float groundSize,
+        float backSize)
     {
-        groundEmission.rateOverTime = emissionRate;
-        backEmission.rateOverTime = emissionRate * 0.6f;
+        // EMISSION
+        groundEmission.rateOverTime = groundEmissionRate;
+        backEmission.rateOverTime = backEmissionRate;
 
-        groundMain.startSpeed = fallSpeed;
-        backMain.startSpeed = fallSpeed * 0.7f;
+        // SPEED
+        groundMain.startSpeed = groundSpeed;
+        backMain.startSpeed = backSpeed;
 
-        groundMain.startSizeMultiplier = sizeMultiplier;
-        backMain.startSizeMultiplier = sizeMultiplier * 0.7f;
+        // SIZE
+        groundMain.startSizeMultiplier = groundSize;
+        backMain.startSizeMultiplier = backSize;
     }
 }
