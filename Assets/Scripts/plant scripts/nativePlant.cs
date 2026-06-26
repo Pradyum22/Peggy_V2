@@ -33,9 +33,12 @@ public class nativePlant : MonoBehaviour
 
     private void Update()
     {
-        if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
         {
-            gameObject.SetActive(false);
+            if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+    {
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -71,22 +74,16 @@ public class nativePlant : MonoBehaviour
 
         Debug.Log($"{source} {name} received value {intValue}");
 
-        // Your friend�s original logic:
-        // < 0  -> die
-        // > 0  -> (re)appear / grow
-        // 0    -> idle (do nothing special)
+        if (intValue < 0)
+        {
+            animator.SetTrigger("TrDie");
+        }
+        else if (intValue > 0)
+        {
+            gameObject.SetActive(true);
+        }
 
-           
-            if (intValue < 0)
-            {
-                animator.SetTrigger("TrDie");
-            }
-            else if (intValue > 0)
-            {
-                // Make sure the plant is visible; animator will handle grow/idle
-                gameObject.SetActive(true);
-            }
-            
-       
+
+
     }
 }

@@ -31,9 +31,12 @@ public class rattleSnakeMaster : MonoBehaviour
     }
     private void Update()
     {
-        if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
         {
-            gameObject.SetActive(false);
+            if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -69,15 +72,12 @@ public class rattleSnakeMaster : MonoBehaviour
 
         Debug.Log($"{source} {name} received value {intValue}");
 
-        // Friend�s original behaviour:
-        // <= 0 -> die
-        // >  0 -> alive / grow
 
         if (intValue <= 0)
         {
             animator.SetTrigger("TrDie");
         }
-        else // > 0
+        else
         {
             gameObject.SetActive(true);
         }

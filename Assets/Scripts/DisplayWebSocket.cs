@@ -7,7 +7,7 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://192.168.30.224:3000";
+    public string serverUrl = "ws://yourIP:3000";
 
     private WebSocket ws;
     [SerializeField] private FireController fireController;

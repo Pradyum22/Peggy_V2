@@ -12,6 +12,16 @@ public class RainController : MonoBehaviour
     private ParticleSystem.MainModule groundMain;
     private ParticleSystem.MainModule backMain;
 
+    // Original artist-tuned values
+    private float defaultGroundEmission;
+    private float defaultBackEmission;
+
+    private float defaultGroundSpeed;
+    private float defaultBackSpeed;
+
+    private float defaultGroundSize;
+    private float defaultBackSize;
+
     void Awake()
     {
         groundEmission = rainGround.emission;
@@ -19,65 +29,77 @@ public class RainController : MonoBehaviour
 
         groundMain = rainGround.main;
         backMain = rainBack.main;
+
+        // Store original values from inspector
+        defaultGroundEmission = groundEmission.rateOverTime.constant;
+        defaultBackEmission = backEmission.rateOverTime.constant;
+
+        defaultGroundSpeed = groundMain.startSpeed.constant;
+        defaultBackSpeed = backMain.startSpeed.constant;
+
+        defaultGroundSize = groundMain.startSizeMultiplier;
+        defaultBackSize = backMain.startSizeMultiplier;
+    }
+
+    void Start()
+    {
+        // Start completely dry
+        rainGround.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        rainBack.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void SetRainState(int state)
     {
         switch (state)
         {
-            case -1: // No rain
-                ApplyRainSettings(
-                    0f,     // ground amount
-                    0f,     // back amount
-                    0f,     // ground speed
-                    0f,     // back speed
-                    0f,     // ground size
-                    0f      // back size
-                );
+            case -1:
+                rainGround.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                rainBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
 
-            case 0: // Medium rain
-                ApplyRainSettings(
-                    25f,    // ground amount
-                    17f,    // back amount
-                    2f,     // ground speed
-                    1f,   // back speed
-                    0.05f,  // ground size
-                    0.15f   // back size
-                );
+            case 0:
+                if (!rainGround.isPlaying)
+                    rainGround.Play();
+
+                if (!rainBack.isPlaying)
+                    rainBack.Play();
+
+                RestoreDefaultRain();
                 break;
 
-            case 1: // Heavy rain
-                ApplyRainSettings(
-                    65f,    // ground amount
-                    55f,    // back amount
-                    3.4f,    // ground speed
-                    1.2f,     // back speed
-                    0.2f,  // ground size
-                    0.25f   // back size
-                );
+            case 1:
+                if (!rainGround.isPlaying)
+                    rainGround.Play();
+
+                if (!rainBack.isPlaying)
+                    rainBack.Play();
+
+                ApplyHeavyRain();
                 break;
         }
     }
 
-    void ApplyRainSettings(
-        float groundEmissionRate,
-        float backEmissionRate,
-        float groundSpeed,
-        float backSpeed,
-        float groundSize,
-        float backSize)
+    private void RestoreDefaultRain()
     {
-        // EMISSION
-        groundEmission.rateOverTime = groundEmissionRate;
-        backEmission.rateOverTime = backEmissionRate;
+        groundEmission.rateOverTime = defaultGroundEmission;
+        backEmission.rateOverTime = defaultBackEmission;
 
-        // SPEED
-        groundMain.startSpeed = groundSpeed;
-        backMain.startSpeed = backSpeed;
+        groundMain.startSpeed = defaultGroundSpeed;
+        backMain.startSpeed = defaultBackSpeed;
 
-        // SIZE
-        groundMain.startSizeMultiplier = groundSize;
-        backMain.startSizeMultiplier = backSize;
+        groundMain.startSizeMultiplier = defaultGroundSize;
+        backMain.startSizeMultiplier = defaultBackSize;
+    }
+
+    private void ApplyHeavyRain()
+    {
+        groundEmission.rateOverTime = defaultGroundEmission * 2.0f;
+        backEmission.rateOverTime = defaultBackEmission * 2.0f;
+
+        groundMain.startSpeed = defaultGroundSpeed * 1.3f;
+        backMain.startSpeed = defaultBackSpeed * 1.5f;
+
+        groundMain.startSizeMultiplier = defaultGroundSize * 1.15f;
+        backMain.startSizeMultiplier = defaultBackSize * 1.15f;
     }
 }
