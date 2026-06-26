@@ -150,20 +150,6 @@ public class DisplayWebSocket : MonoBehaviour
         }
     }
 
-    //private void DispatchPlants(int value)
-    //{
-    //foreach (var p in nativePlants)
-    //{
-    //if (p != null)
-    //p.OnRemoteSliderUpdate(value);
-    //}
-
-    //foreach (var p in rattlePlants)
-    //{
-    //if (p != null)
-    //''p.OnRemoteSliderUpdate(value);
-    //}
-    //}
 
     private void DispatchPlants(int value)
     {
