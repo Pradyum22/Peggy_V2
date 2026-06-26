@@ -150,8 +150,43 @@ public class DisplayWebSocket : MonoBehaviour
         }
     }
 
+    //private void DispatchPlants(int value)
+    //{
+    //foreach (var p in nativePlants)
+    //{
+    //if (p != null)
+    //p.OnRemoteSliderUpdate(value);
+    //}
+
+    //foreach (var p in rattlePlants)
+    //{
+    //if (p != null)
+    //''p.OnRemoteSliderUpdate(value);
+    //}
+    //}
+
     private void DispatchPlants(int value)
     {
+        // Native plants should exist at 0 and 1
+        if (value >= 0)
+        {
+            foreach (var p in nativePlants)
+            {
+                if (p != null)
+                    p.gameObject.SetActive(true);
+            }
+        }
+
+        // White flowers should only exist at 1
+        if (value > 0)
+        {
+            foreach (var p in rattlePlants)
+            {
+                if (p != null)
+                    p.gameObject.SetActive(true);
+            }
+        }
+
         foreach (var p in nativePlants)
         {
             if (p != null)
