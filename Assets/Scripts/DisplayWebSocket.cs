@@ -7,7 +7,7 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://yourIP:3000";
+    public string serverUrl = "ws://10.0.0.146:3000"; //Enter IP Here, can be changed in Inspector
 
     private WebSocket ws;
     [SerializeField] private FireController fireController;
@@ -46,6 +46,7 @@ public class DisplayWebSocket : MonoBehaviour
 
         // Cache RainController
         rainController = FindFirstObjectByType<RainController>();
+
 
         Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
         Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
@@ -130,6 +131,7 @@ public class DisplayWebSocket : MonoBehaviour
                 foreach (var r in rootGrowDies)
                     if (r != null)
                         r.OnRemoteSliderUpdate(value);
+
 
                 if (butterflyController != null)
                     butterflyController.SetButterflyState(value);
