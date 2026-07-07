@@ -11814,6 +11814,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rainGround: {fileID: 268472897}
   rainBack: {fileID: 1014775764}
+  puddleRenderer: {fileID: 0}
+  thresholdProperty: threshold
+  hiddenThreshold: 0.685
+  visibleThreshold: 0.3
+  puddleFadeTime: 6
 --- !u!4 &662915566
 Transform:
   m_ObjectHideFlags: 0
@@ -19540,6 +19545,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testSlider: {fileID: 0}
+--- !u!23 &940624122 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8898698422443029100, guid: 6b1e588f614ba1d4db89a07539f3880d, type: 3}
+  m_PrefabInstance: {fileID: 1517554697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &944288665 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 34442baf9e2d54c44894da246547f512, type: 3}
@@ -32456,6 +32466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942390489}
   - component: {fileID: 1942390488}
+  - component: {fileID: 1942390490}
   m_Layer: 0
   m_Name: WebSocketManager
   m_TagString: Untagged
@@ -32497,6 +32508,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942390490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942390487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4664ef170b19cb419a8ccad91eec30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puddleRenderer: {fileID: 940624122}
+  thresholdProperty: _threshold
+  hiddenThreshold: 0.685
+  visibleThreshold: 0.3
+  fadeDuration: 7
 --- !u!1 &1942611244 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 34442baf9e2d54c44894da246547f512, type: 3}

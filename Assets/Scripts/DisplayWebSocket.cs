@@ -7,7 +7,7 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://10.0.0.146:3000"; //Enter IP Here, can be changed in Inspector
+    public string serverUrl = "ws://10.0.0.146:3000"; //Enter IP Here
 
     private WebSocket ws;
     [SerializeField] private FireController fireController;
@@ -25,6 +25,8 @@ public class DisplayWebSocket : MonoBehaviour
     private readonly List<root3_growdie> rootGrowDies = new();
 
     private RainController rainController;
+    private PuddleController puddleController;
+
 
     [Serializable]
     private class SliderMessage
@@ -47,8 +49,13 @@ public class DisplayWebSocket : MonoBehaviour
         // Cache RainController
         rainController = FindFirstObjectByType<RainController>();
 
+       // Cache PuddleController
+       puddleController = FindAnyObjectByType<PuddleController>();
 
-        Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
+
+
+
+    Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
         Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
         Debug.Log($"[DisplayWebSocket] RainController found: {rainController != null}");
 
@@ -99,7 +106,7 @@ public class DisplayWebSocket : MonoBehaviour
     private void DispatchByFactor(string factor, int value)
     {
         Debug.Log($"[DisplayWebSocket] Factor: {factor}, Value: {value}");
-        Debug.Log("RAIN SIGNAL RECEIVED: " + value);
+        
 
         // DEFAULT behavior (backwards compatibility)
         if (string.IsNullOrEmpty(factor))
@@ -120,9 +127,13 @@ public class DisplayWebSocket : MonoBehaviour
                 break;
 
             case "rain":
-
+                Debug.Log($"Factor = {factor}, Value = {value}");
+                //Rain
                 if (rainController != null)
+                {
+                    Debug.Log("Calling RainController!");
                     rainController.SetRainState(value);
+                }
 
                 foreach (var r in rootStatics)
                     if (r != null)
@@ -132,19 +143,25 @@ public class DisplayWebSocket : MonoBehaviour
                     if (r != null)
                         r.OnRemoteSliderUpdate(value);
 
+                //Puddle
+                if (puddleController != null)
+                    puddleController.SetPuddleState(value);
 
+                //Butterfly
                 if (butterflyController != null)
                     butterflyController.SetButterflyState(value);
-
+                //Sky
                 if (skyController != null)
                     skyController.SetRainState(value);
-
+                //Grass
                 if (grassController != null)
                     grassController.ChangeMaterial(value);
 
+                //Water
                 if (waterController != null)
                     waterController.SetWaterLevel(value);
 
+                ///Worm
                 if (wormController != null)
                     wormController.SetWormState(value);
 

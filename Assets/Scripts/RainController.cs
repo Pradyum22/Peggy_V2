@@ -16,7 +16,7 @@ public class RainController : MonoBehaviour
     [Header("Puddle")]
     [SerializeField] private Renderer puddleRenderer;
 
-    [SerializeField] private string thresholdProperty = "threshold";
+    [SerializeField] private string thresholdProperty = "_threshold";
 
     [SerializeField] private float hiddenThreshold = 0.685f;
 
@@ -102,9 +102,12 @@ public class RainController : MonoBehaviour
 
                 RestoreDefaultRain();
 
+                rainGround.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                rainBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
                 FadePuddle(hiddenThreshold);
 
-                StartCoroutine(RandomRainRoutine());
+                rainRoutine = StartCoroutine(RandomRainRoutine());
 
                 break;
 
