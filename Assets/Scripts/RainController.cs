@@ -114,13 +114,12 @@ public class RainController : MonoBehaviour
 
             case 1:
 
-                if (!rainGround.isPlaying)
-                    rainGround.Play();
-
-                if (!rainBack.isPlaying)
-                    rainBack.Play();
+                RestoreDefaultRain();
 
                 ApplyHeavyRain();
+
+                rainGround.Play();
+                rainBack.Play();
 
                 FadePuddle(visibleThreshold);
 
