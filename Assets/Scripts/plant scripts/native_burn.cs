@@ -55,7 +55,7 @@ public class native_burn : MonoBehaviour
     private void OnButtonClicked()
     {
         state++;
-        if (state > 4)
+        if (state > 5)
         {
             Debug.Log("cycle reset!");
             state = 1;
@@ -74,15 +74,20 @@ public class native_burn : MonoBehaviour
         }
         else if (state == 3)
         {
+            Debug.Log("Invade2 activated");
+            animator.SetTrigger("Invade2");
+        }
+        else if (state == 4)
+        {
             Debug.Log("Burn activated");
             animator.SetTrigger("Burn");
         }
-        else if (state == 4)
+        else if (state == 5)
         {
             Debug.Log("Regrow activated");
             animator.SetTrigger("Regrow");
         }
-        if (state > 4)
+        if (state > 5)
         {
             Debug.Log("Return activated");
             animator.SetTrigger("Return");
