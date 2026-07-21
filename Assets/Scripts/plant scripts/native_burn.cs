@@ -68,7 +68,6 @@ public class native_burn : MonoBehaviour
         //activating animation triggers depending on state of the cycle
         if (state == 2)
         {
-           
             Debug.Log("Invade activated");
             animator.SetTrigger("Invade");
         }
