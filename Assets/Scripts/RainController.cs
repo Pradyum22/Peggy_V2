@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class RainController : MonoBehaviour
@@ -12,7 +13,22 @@ public class RainController : MonoBehaviour
     private ParticleSystem.MainModule groundMain;
     private ParticleSystem.MainModule backMain;
 
-    // Original artist-tuned values
+    [Header("Puddle")]
+    [SerializeField] private Renderer puddleRenderer;
+
+    [SerializeField] private string thresholdProperty = "_threshold";
+
+    [SerializeField] private float hiddenThreshold = 0.685f;
+
+    [SerializeField] private float visibleThreshold = 0.3f;
+
+    [SerializeField] private float puddleFadeTime = 6f;
+
+    private Material puddleMaterial;
+    private Coroutine puddleRoutine;
+    private Coroutine rainRoutine;
+
+    // Original values
     private float defaultGroundEmission;
     private float defaultBackEmission;
 
@@ -21,6 +37,7 @@ public class RainController : MonoBehaviour
 
     private float defaultGroundSize;
     private float defaultBackSize;
+
 
     void Awake()
     {
@@ -39,7 +56,19 @@ public class RainController : MonoBehaviour
 
         defaultGroundSize = groundMain.startSizeMultiplier;
         defaultBackSize = backMain.startSizeMultiplier;
+
+        if (puddleRenderer != null)
+        {
+            puddleMaterial = puddleRenderer.material;
+
+            puddleMaterial.SetFloat(
+                thresholdProperty,
+                hiddenThreshold
+            );
+        }
+
     }
+
 
     void Start()
     {
@@ -48,33 +77,52 @@ public class RainController : MonoBehaviour
         rainBack.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
+
     public void SetRainState(int state)
     {
+        if (rainRoutine != null)
+        {
+            StopCoroutine(rainRoutine);
+            rainRoutine = null;
+        }
+
         switch (state)
         {
             case -1:
+
                 rainGround.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 rainBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+                FadePuddle(hiddenThreshold);
+
                 break;
+
 
             case 0:
-                if (!rainGround.isPlaying)
-                    rainGround.Play();
-
-                if (!rainBack.isPlaying)
-                    rainBack.Play();
 
                 RestoreDefaultRain();
+
+                rainGround.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                rainBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+                FadePuddle(hiddenThreshold);
+
+                rainRoutine = StartCoroutine(RandomRainRoutine());
+
                 break;
 
-            case 1:
-                if (!rainGround.isPlaying)
-                    rainGround.Play();
 
-                if (!rainBack.isPlaying)
-                    rainBack.Play();
+            case 1:
+
+                RestoreDefaultRain();
 
                 ApplyHeavyRain();
+
+                rainGround.Play();
+                rainBack.Play();
+
+                FadePuddle(visibleThreshold);
+
                 break;
         }
     }
@@ -101,5 +149,63 @@ public class RainController : MonoBehaviour
 
         groundMain.startSizeMultiplier = defaultGroundSize * 1.15f;
         backMain.startSizeMultiplier = defaultBackSize * 1.15f;
+    }
+    private void FadePuddle(float target)
+    {
+        if (puddleRoutine != null)
+            StopCoroutine(puddleRoutine);
+
+        puddleRoutine = StartCoroutine(FadePuddleRoutine(target));
+    }
+
+    private IEnumerator FadePuddleRoutine(float target)
+    {
+        if (puddleMaterial == null)
+            yield break;
+
+        float start =
+            puddleMaterial.GetFloat(thresholdProperty);
+
+        float elapsed = 0f;
+
+        while (elapsed < puddleFadeTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / puddleFadeTime;
+
+            float value = Mathf.Lerp(start, target, t);
+
+            puddleMaterial.SetFloat(
+                thresholdProperty,
+                value
+            );
+
+            yield return null;
+        }
+
+        puddleMaterial.SetFloat(
+            thresholdProperty,
+            target
+        );
+    }
+
+    private IEnumerator RandomRainRoutine()
+    {
+        while (true)
+        {
+            float waitTime = UnityEngine.Random.Range(5f, 10f);
+
+            yield return new WaitForSeconds(waitTime);
+
+            rainGround.Play();
+            rainBack.Play();
+
+            yield return new WaitForSeconds(5f);
+            Debug.Log("Rain!");
+
+            rainGround.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            rainBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
     }
 }
