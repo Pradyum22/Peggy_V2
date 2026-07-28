@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 066ab37ab9f56ef4ebdb44675dc2d7e3
+guid: 768994f7ba2f8d9439c1b5bfefa3672b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: de2f1090c7bacd8459f14ad70a0d56cf, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: andropogon-gerardii-big-bluestem
+    second: {fileID: 2800000, guid: 3f0582faa7edcfd4d820cf57ba3a4aab, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
