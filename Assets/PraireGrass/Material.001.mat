@@ -26,17 +26,17 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0.12
-    - _HeightB: 1.07
+    - _AlphaClip: 0.18
+    - _HeightB: 0.65
     - _QueueControl: 0
-    - _Smoothness: 0.29
-    - _Windintensity: 0.01
-    - _windspeed: 0.3
+    - _Smoothness: 0.06
+    - _Windintensity: 0.02
+    - _windspeed: 0.2
     m_Colors:
     - _BottomCOlour: {r: 0.5, g: 0.4748226, b: 0.2948113, a: 1}
-    - _Colour: {r: 0.8773585, g: 0.78502923, b: 0.376602, a: 1}
-    - _FarColour: {r: 0.42705953, g: 0.64705884, b: 0.7882353, a: 1}
-    - _NearFarRange: {r: 10.18, g: 18.3, b: 0, a: 0}
+    - _Colour: {r: 0.8867924, g: 0.791891, b: 0.38065147, a: 1}
+    - _FarColour: {r: 0.501513, g: 0.7590006, b: 0.9245283, a: 1}
+    - _NearFarRange: {r: 3.52, g: 18.64, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2989530608018582594
