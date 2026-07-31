@@ -90,8 +90,14 @@ public class DisplayWebSocket : MonoBehaviour
 
                 if (msg != null && msg.type == "slider")
                 {
-                    int v = Mathf.Clamp(msg.value, -1, 1);
-                    DispatchByFactor(msg.factor, v);
+                    int value;
+
+                    if (msg.factor == "fire")
+                        value = Mathf.Clamp(msg.value, 0, 3);
+                    else
+                        value = Mathf.Clamp(msg.value, -1, 1);
+
+                    DispatchByFactor(msg.factor, value);
                 }
             }
             catch (Exception ex)
@@ -118,8 +124,10 @@ public class DisplayWebSocket : MonoBehaviour
         switch (factor)
         {
             case "fire":
+
                 if (fireController != null)
-                    fireController.UpdateFire(value);
+                    fireController.SetFireState(value);
+
                 break;
 
             case "flowers":
