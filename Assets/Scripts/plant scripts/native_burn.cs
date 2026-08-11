@@ -66,30 +66,32 @@ public class native_burn : MonoBehaviour
     private void cycleChange()
     {
         //activating animation triggers depending on state of the cycle
-        if (state == 2)
+        if (state == 1)
         {
             Debug.Log("Invade activated");
             animator.SetTrigger("Invade");
         }
-        else if (state == 3)
+        else if (state == 2)
         {
             Debug.Log("Invade2 activated");
             animator.SetTrigger("Invade2");
         }
-        else if (state == 4)
+        else if (state == 3)
         {
             Debug.Log("Burn activated");
             animator.SetTrigger("Burn");
         }
-        else if (state == 5)
+        else if (state == 4)
         {
             Debug.Log("Regrow activated");
             animator.SetTrigger("Regrow");
         }
-        if (state > 5)
+        else if (state == 5)
         {
-            Debug.Log("Return activated");
-            animator.SetTrigger("Return");
+            Debug.Log("Reset activated");
+            animator.SetTrigger("Reset");
         }
+        
+        //tag checks under each if statement! native_root, native_plant, invasive1, invasive2
     }
 }
