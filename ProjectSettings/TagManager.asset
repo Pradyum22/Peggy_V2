@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - water
-  - New tag
+  - invade1
+  - invade2
+  - native
   layers:
   - Default
   - TransparentFX
