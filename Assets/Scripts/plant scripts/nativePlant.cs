@@ -78,7 +78,7 @@ public class nativePlant : MonoBehaviour
         {
             animator.SetTrigger("TrDie");
         }
-        else if (intValue > 0)
+        else if (intValue == 0)
         {
             gameObject.SetActive(true);
         }
