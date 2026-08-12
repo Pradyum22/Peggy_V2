@@ -73,7 +73,7 @@ public class rattleSnakeMaster : MonoBehaviour
         Debug.Log($"{source} {name} received value {intValue}");
 
 
-        if (intValue < 0)
+        if (intValue == 0)
         {
             animator.SetTrigger("TrDie");
         }
