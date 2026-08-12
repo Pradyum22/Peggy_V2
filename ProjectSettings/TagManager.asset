@@ -8,6 +8,8 @@ TagManager:
   - invade1
   - invade2
   - native
+  - nativedie1
+  - nativedie2
   layers:
   - Default
   - TransparentFX

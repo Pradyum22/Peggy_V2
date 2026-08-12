@@ -69,27 +69,27 @@ public class native_burn : MonoBehaviour
         if (state == 1)
         {
             Debug.Log("Invade activated");
-            animator.SetTrigger("Invade");
+            //animator.SetTrigger("Invade");
         }
         else if (state == 2)
         {
             Debug.Log("Invade2 activated");
-            animator.SetTrigger("Invade2");
+            //animator.SetTrigger("Invade2");
         }
         else if (state == 3)
         {
             Debug.Log("Burn activated");
-            animator.SetTrigger("Burn");
+            //animator.SetTrigger("Burn");
         }
         else if (state == 4)
         {
             Debug.Log("Regrow activated");
-            animator.SetTrigger("Regrow");
+            //animator.SetTrigger("Regrow");
         }
         else if (state == 5)
         {
             Debug.Log("Reset activated");
-            animator.SetTrigger("Reset");
+            //animator.SetTrigger("Reset");
         }
         
         //tag checks under each if statement! native_root, native_plant, invasive1, invasive2

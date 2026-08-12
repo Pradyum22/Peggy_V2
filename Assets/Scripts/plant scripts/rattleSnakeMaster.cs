@@ -28,6 +28,7 @@ public class rattleSnakeMaster : MonoBehaviour
             testSlider.onValueChanged.AddListener(OnSliderValueChanged);
             OnSliderValueChanged(testSlider.value);
         }
+        gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -77,7 +78,7 @@ public class rattleSnakeMaster : MonoBehaviour
         {
             animator.SetTrigger("TrDie");
         }
-        else
+        else 
         {
             gameObject.SetActive(true);
         }
