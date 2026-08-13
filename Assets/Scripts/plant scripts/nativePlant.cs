@@ -19,7 +19,6 @@ public class nativePlant : MonoBehaviour
 
     private void Start()
     {
-        // Optional local slider for testing in the editor
         if (testSlider != null)
         {
             testSlider.minValue = -1;
@@ -33,12 +32,9 @@ public class nativePlant : MonoBehaviour
 
     private void Update()
     {
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
         {
-            if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("isdead"))
-    {
-                gameObject.SetActive(false);
-            }
+            gameObject.SetActive(false);
         }
     }
 
@@ -56,10 +52,8 @@ public class nativePlant : MonoBehaviour
         ApplyValue(Mathf.RoundToInt(value), "[nativePlant] (local slider)");
     }
 
-    // REMOTE slider � called by DisplayWebSocket
     public void OnRemoteSliderUpdate(int value)
     {
-        // Optionally keep the test slider in sync (without triggering its callback)
         if (testSlider != null)
         {
             testSlider.SetValueWithoutNotify(value);
@@ -74,16 +68,14 @@ public class nativePlant : MonoBehaviour
 
         Debug.Log($"{source} {name} received value {intValue}");
 
-        if (intValue < 0)
+        if (intValue >= 1) // Native Species Active (1)
+        {
+            gameObject.SetActive(true);
+            // Animator returns to default/alive state
+        }
+        else if (intValue <= -1) // Invasive Species Active (-1)
         {
             animator.SetTrigger("TrDie");
         }
-        else if (intValue == 0)
-        {
-            gameObject.SetActive(true);
-        }
-
-
-
     }
 }

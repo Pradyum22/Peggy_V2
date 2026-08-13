@@ -7,7 +7,7 @@ using NativeWebSocket;
 public class DisplayWebSocket : MonoBehaviour
 {
     [Header("WebSocket server (Node.js)")]
-    public string serverUrl = "ws://10.0.0.146:3000"; //Enter IP Here
+    public string serverUrl = "ws://10.0.0.146:3000"; // Enter IP Here
 
     private WebSocket ws;
     [SerializeField] private FireController fireController;
@@ -20,13 +20,13 @@ public class DisplayWebSocket : MonoBehaviour
 
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
+    private readonly List<InvasiveRootController> invasiveRootShaderControllers = new();
 
     private readonly List<root_static> rootStatics = new();
     private readonly List<root3_growdie> rootGrowDies = new();
 
     private RainController rainController;
     private PuddleController puddleController;
-
 
     [Serializable]
     private class SliderMessage
@@ -38,27 +38,14 @@ public class DisplayWebSocket : MonoBehaviour
 
     private async void Start()
     {
-        // Cache plant controllers
-        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsSortMode.None));
-        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsSortMode.None));
+        // 1. Cache all controllers in the scene (including hidden/inactive ones)
+        CacheSceneControllers();
 
-        // Cache Root Controllers
-        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsSortMode.None));
-        rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsSortMode.None));
-
-        // Cache RainController
-        rainController = FindFirstObjectByType<RainController>();
-
-       // Cache PuddleController
-       puddleController = FindAnyObjectByType<PuddleController>();
-
-
-
-
-    Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
+        Debug.Log($"[DisplayWebSocket] Found {rootStatics.Count} roots_static, {rootGrowDies.Count} root3_growdie.");
         Debug.Log($"[DisplayWebSocket] Found {nativePlants.Count} nativePlant, {rattlePlants.Count} rattleSnakeMaster.");
         Debug.Log($"[DisplayWebSocket] RainController found: {rainController != null}");
 
+        // 2. Connect to WebSocket
         ws = new WebSocket(serverUrl);
 
         ws.OnOpen += () =>
@@ -109,10 +96,38 @@ public class DisplayWebSocket : MonoBehaviour
         await ws.Connect();
     }
 
+    // =========================================================
+    // CACHE CONTROLLERS METHOD to keep things optimized!!!
+    // =========================================================
+    public void CacheSceneControllers()
+    {
+        nativePlants.Clear();
+        rattlePlants.Clear();
+        rootStatics.Clear();
+        rootGrowDies.Clear();
+        invasiveRootShaderControllers.Clear(); // Clear old references
+
+        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+
+        // Auto-detect the shader root controller
+        invasiveRootShaderControllers.AddRange(FindObjectsByType<InvasiveRootController>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+
+        rainController = FindFirstObjectByType<RainController>();
+        puddleController = FindAnyObjectByType<PuddleController>();
+        fireController = FindFirstObjectByType<FireController>();
+        butterflyController = FindFirstObjectByType<ButterflyController>();
+        waterController = FindFirstObjectByType<WaterLevelController>();
+        wormController = FindFirstObjectByType<WormController>();
+        skyController = FindFirstObjectByType<SkyController>();
+        grassController = FindFirstObjectByType<Texture_Change>();
+    }
+
     private void DispatchByFactor(string factor, int value)
     {
         Debug.Log($"[DisplayWebSocket] Factor: {factor}, Value: {value}");
-        
 
         // DEFAULT behavior (backwards compatibility)
         if (string.IsNullOrEmpty(factor))
@@ -124,10 +139,8 @@ public class DisplayWebSocket : MonoBehaviour
         switch (factor)
         {
             case "fire":
-
                 if (fireController != null)
                     fireController.SetFireState(value);
-
                 break;
 
             case "flowers":
@@ -136,7 +149,7 @@ public class DisplayWebSocket : MonoBehaviour
 
             case "rain":
                 Debug.Log($"Factor = {factor}, Value = {value}");
-                //Rain
+
                 if (rainController != null)
                 {
                     Debug.Log("Calling RainController!");
@@ -151,25 +164,21 @@ public class DisplayWebSocket : MonoBehaviour
                     if (r != null)
                         r.OnRemoteSliderUpdate(value);
 
-                //Puddle
                 if (puddleController != null)
                     puddleController.SetPuddleState(value);
 
-                //Butterfly
                 if (butterflyController != null)
                     butterflyController.SetButterflyState(value);
-                //Sky
+
                 if (skyController != null)
                     skyController.SetRainState(value);
-                //Grass
+
                 if (grassController != null)
                     grassController.ChangeMaterial(value);
 
-                //Water
                 if (waterController != null)
                     waterController.SetWaterLevel(value);
 
-                ///Worm
                 if (wormController != null)
                     wormController.SetWormState(value);
 
@@ -177,39 +186,26 @@ public class DisplayWebSocket : MonoBehaviour
         }
     }
 
-
     private void DispatchPlants(int value)
     {
-        // Native plants should exist at 0 and 1
-        if (value >= 0)
-        {
-            foreach (var p in nativePlants)
-            {
-                if (p != null)
-                    p.gameObject.SetActive(true);
-            }
-        }
+        // Web UI value: 1 = Native Species, -1 = Invasive Species
 
-        // White flowers should only exist at 1
-        if (value > 0)
-        {
-            foreach (var p in rattlePlants)
-            {
-                if (p != null)
-                    p.gameObject.SetActive(true);
-            }
-        }
-
+        // 1. Native Plants
         foreach (var p in nativePlants)
         {
-            if (p != null)
-                p.OnRemoteSliderUpdate(value);
+            if (p != null) p.OnRemoteSliderUpdate(value);
         }
 
+        // 2. Invasive Plants (Above ground thistles)
         foreach (var p in rattlePlants)
         {
-            if (p != null)
-                p.OnRemoteSliderUpdate(value);
+            if (p != null) p.OnRemoteSliderUpdate(value);
+        }
+
+        // 3. Invasive Roots Shader (Below ground)
+        foreach (var r in invasiveRootShaderControllers)
+        {
+            if (r != null) r.OnRemoteSliderUpdate(value);
         }
     }
 
