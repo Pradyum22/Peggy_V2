@@ -28,7 +28,8 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _dissolve: 0.01
-    m_Colors: []
+    m_Colors:
+    - _burncolor: {r: 1, g: 0.37736046, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &439779109145276454
