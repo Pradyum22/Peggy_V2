@@ -7504,7 +7504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fe02b24293bf44f9de8064796b2cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSystems: []
+  dissolveController: {fileID: 0}
 --- !u!4 &293126773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2164832335007329316, guid: b06ab86c839a7c245ad86b3d65918e8d, type: 3}
@@ -28490,8 +28490,8 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 1409723947}
   - {fileID: 641197148}
-  targetPoint: 0
-  speed: 1
+  targetPoint: 1
+  speed: 2
   mySpriteRenderer: {fileID: 6471521160418321612}
 --- !u!1 &1357988034
 GameObject:
