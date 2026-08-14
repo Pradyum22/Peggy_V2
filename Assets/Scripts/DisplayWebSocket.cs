@@ -18,6 +18,10 @@ public class DisplayWebSocket : MonoBehaviour
     public SkyController skyController;
     public Texture_Change grassController;
 
+    private readonly List<Fire_InvasivePlant> fireInvasives = new();
+    private readonly List<Fire_NativePlantDie> fireNativeDies = new();
+    private readonly List<Fire_BurnController> fireBurnControllers = new();
+
     private readonly List<nativePlant> nativePlants = new();
     private readonly List<rattleSnakeMaster> rattlePlants = new();
     private readonly List<InvasiveRootController> invasiveRootShaderControllers = new();
@@ -97,20 +101,32 @@ public class DisplayWebSocket : MonoBehaviour
     }
 
     // =========================================================
-    // CACHE CONTROLLERS METHOD to keep things optimized!!!
+    // CACHE CONTROLLERS METHOD
+    // Keeps things optimized 
+    // Clears old references
     // =========================================================
     public void CacheSceneControllers()
     {
+        //PlantDiversity
         nativePlants.Clear();
         rattlePlants.Clear();
         rootStatics.Clear();
         rootGrowDies.Clear();
-        invasiveRootShaderControllers.Clear(); // Clear old references
+        invasiveRootShaderControllers.Clear();
+
+        //FireScene
+        fireInvasives.Clear();
+        fireNativeDies.Clear();
+        fireBurnControllers.Clear();
 
         nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        //FireScene
+        fireInvasives.AddRange(FindObjectsByType<Fire_InvasivePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        fireNativeDies.AddRange(FindObjectsByType<Fire_NativePlantDie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        fireBurnControllers.AddRange(FindObjectsByType<Fire_BurnController>(FindObjectsInactive.Include, FindObjectsSortMode.None));
 
         // Auto-detect the shader root controller
         invasiveRootShaderControllers.AddRange(FindObjectsByType<InvasiveRootController>(FindObjectsInactive.Include, FindObjectsSortMode.None));
@@ -139,8 +155,13 @@ public class DisplayWebSocket : MonoBehaviour
         switch (factor)
         {
             case "fire":
-                if (fireController != null)
-                    fireController.SetFireState(value);
+                // Route fire stage (0-4) to dedicated fire controllers
+                foreach (var p in fireInvasives) if (p != null) p.OnFireStageUpdate(value);
+                foreach (var p in fireNativeDies) if (p != null) p.OnFireStageUpdate(value);
+                foreach (var b in fireBurnControllers) if (b != null) b.OnFireStageUpdate(value);
+
+                // Call legacy fire controller if present
+                if (fireController != null) fireController.SetFireState(value);
                 break;
 
             case "flowers":
