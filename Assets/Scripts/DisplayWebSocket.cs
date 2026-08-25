@@ -119,10 +119,16 @@ public class DisplayWebSocket : MonoBehaviour
         fireNativeDies.Clear();
         fireBurnControllers.Clear();
 
+        
+
         nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+
+        //For Butterflies
+        butterflyController = FindFirstObjectByType<ButterflyController>();
+
         //FireScene
         fireInvasives.AddRange(FindObjectsByType<Fire_InvasivePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
         fireNativeDies.AddRange(FindObjectsByType<Fire_NativePlantDie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
@@ -227,6 +233,12 @@ public class DisplayWebSocket : MonoBehaviour
         foreach (var r in invasiveRootShaderControllers)
         {
             if (r != null) r.OnRemoteSliderUpdate(value);
+        }
+
+        // 4. Pollinators (Butterflies & Bees)
+        if (butterflyController != null)
+        {
+            butterflyController.SetButterflyState(value);
         }
     }
 
