@@ -48282,6 +48282,7 @@ MonoBehaviour:
   - {fileID: 1241913416}
   - {fileID: 1803246335}
   - {fileID: 541030182}
+  invertRainLogic: 0
   activeEmissionRate: 4
   inactiveEmissionRate: 0
 --- !u!1 &2105163511

@@ -6,15 +6,18 @@ public class ButterflyController : MonoBehaviour
     [Tooltip("Leave empty to automatically grab all child particle systems (Butterflies + Bees).")]
     public ParticleSystem[] butterflies;
 
+    [Header("Scene Configuration")]
+    [Tooltip("Check this in RainScene so 1 (Max Rain) = 0 pollinators, and -1 (No Rain) = Max pollinators.")]
+    public bool invertRainLogic = false;
+
     [Header("Emission Rates")]
-    public float activeEmissionRate = 4f;   // Native Species / Clear Sky
-    public float inactiveEmissionRate = 0f; // Invasive Species / Heavy Rain
+    public float activeEmissionRate = 4f;   // Full presence
+    public float inactiveEmissionRate = 0f; // Completely absent
 
     private ParticleSystem.EmissionModule[] emissions;
 
     void Awake()
     {
-        // Automatically find all child particle systems (Monarch, Cabbage, Bees) if empty
         if (butterflies == null || butterflies.Length == 0)
         {
             butterflies = GetComponentsInChildren<ParticleSystem>(true);
@@ -27,27 +30,25 @@ public class ButterflyController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Controls emission based on the slider state.
-    /// Plant Diversity:  1 = Native (Present), -1 = Invasive (Absent)
-    /// Rain Scene:      -1 = Heavy Rain (Absent), 0 = Moderate (Few), 1 = Clear (Present)
-    /// </summary>
     public void SetButterflyState(int state)
     {
-        switch (state)
+        // Flip input if this instance is running in RainScene
+        int effectiveState = invertRainLogic ? -state : state;
+
+        switch (effectiveState)
         {
             case 1:
-                // Native Species (Plants) or Clear Day (Rain) -> Pollinators Present
+                // Active pollinators (Native Species in PlantScene OR Dry/Clear in RainScene)
                 SetEmission(activeEmissionRate);
                 break;
 
             case 0:
-                // Moderate Rain (Legacy RainScene support)
+                // Moderate emission
                 SetEmission(activeEmissionRate * 0.5f);
                 break;
 
             case -1:
-                // Invasive Species (Plants) or Heavy Rain (Rain) -> Pollinators Absent
+                // Inactive pollinators (Invasive in PlantScene OR Max Rain in RainScene)
                 SetEmission(inactiveEmissionRate);
                 break;
         }
