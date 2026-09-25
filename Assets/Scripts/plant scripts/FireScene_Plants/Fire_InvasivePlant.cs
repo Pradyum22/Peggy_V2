@@ -5,41 +5,40 @@ using UnityEngine;
 /// </summary>
 public class Fire_InvasivePlant : MonoBehaviour
 {
-    private Animator animator;
+    private Animator[] childAnimators;
+
+    [Header("Stage Settings")]
+    [Tooltip("Set to 1 for INVADE1, Set to 2 for INVADE2")]
+    public int activationStage = 1;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        childAnimators = GetComponentsInChildren<Animator>(true);
     }
 
-    /// <summary>
-    /// Called when the Web UI Fire slider updates (Stage 0 to 4).
-    /// </summary>
     public void OnFireStageUpdate(int stage)
     {
-        Debug.Log($"[Fire_InvasivePlant] {name} received Fire Stage {stage}");
-
-        if (stage == 0)
+        if (stage == 0 || stage == 4)
         {
-            // Stage 0: Healthy reference ecosystem -> Hide Invasives
+            // Stage 0 (Reset) & Stage 4 (Restored) -> Hide Invasives
             gameObject.SetActive(false);
         }
-        else if (stage == 1)
+        else if (stage == activationStage)
         {
-            // Stage 1: Invasives Spread -> Activate and trigger growth cycle
+            // Stage 1 or 2: Activate and trigger growth cycle
             gameObject.SetActive(true);
-
-            if (animator != null)
+            if (childAnimators != null)
             {
-                // Rebind resets the animator state so the growth animation plays fresh
-                animator.Rebind();
-                animator.Update(0f);
+                foreach (var anim in childAnimators)
+                {
+                    if (anim != null)
+                    {
+                        anim.Rebind();
+                        anim.Update(0f);
+                    }
+                }
             }
         }
-        else if (stage >= 2)
-        {
-            // Stage 2+: Controlled Fire -> Burn shader handles destruction / stays inactive
-            // (If using burn shader directly on mesh, keep active; otherwise set inactive if burned away)
-        }
+        // At stage 3 (Burn), we do nothing here so the Burn Shader can visually dissolve them.
     }
 }
