@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: INV_pl_BURN Variant
-  m_Shader: {fileID: -6465566751694194690, guid: d0451858009d0d848a1975fdc225c640, type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: d0451858009d0d848a1975fdc225c640, type: 3}
+  m_Name: native_pl_BURN Variant
+  m_Shader: {fileID: -6465566751694194690, guid: a0cff91339138f240baab342ef041465, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: a0cff91339138f240baab342ef041465, type: 3}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -26,14 +26,12 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _QueueControl: 0
     - _burn: 0.01
-    - _dissolve: 0.01
     m_Colors:
-    - _burncolor: {r: 1, g: 0.37736046, b: 0, a: 0}
+    - _burncolor: {r: 1, g: 0.26682043, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &439779109145276454
+--- !u!114 &8201936796559852826
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
