@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Controls native plants near invasives that die during a specific invasion stage.
-/// Attach to the parent container (e.g. PlantDie1 or PlantDie2).
+/// Attach to the parent container (e.g. PlantDie_Stage1 or PlantDie_Stage2).
 /// </summary>
 public class Fire_NativePlantDie : MonoBehaviour
 {
@@ -34,6 +34,35 @@ public class Fire_NativePlantDie : MonoBehaviour
         }
     }
 
+    // --- ARTIST TESTING TOOLS ---
+    [ContextMenu("TEST: Trigger Die (Burn)")]
+    public void TestBurn()
+    {
+        if (childAnimators == null) return;
+        foreach (var anim in childAnimators)
+        {
+            if (anim != null && anim.gameObject.activeInHierarchy)
+            {
+                anim.SetTrigger("TrDie");
+            }
+        }
+    }
+
+    [ContextMenu("TEST: Reset")]
+    public void ResetBurn()
+    {
+        if (childAnimators == null) return;
+        foreach (var anim in childAnimators)
+        {
+            if (anim != null)
+            {
+                anim.gameObject.SetActive(true);
+                anim.Rebind();
+                anim.Update(0f);
+            }
+        }
+    }
+
     public void OnFireStageUpdate(int stage)
     {
         if (childAnimators == null) return;
@@ -41,26 +70,12 @@ public class Fire_NativePlantDie : MonoBehaviour
         if (stage == 0 || stage == 4)
         {
             // Stage 4 (Restored) & Stage 0 (Reset) -> Re-enable all child plants
-            foreach (var anim in childAnimators)
-            {
-                if (anim != null)
-                {
-                    anim.gameObject.SetActive(true);
-                    anim.Rebind();
-                    anim.Update(0f);
-                }
-            }
+            ResetBurn();
         }
         else if (stage == activationStage)
         {
             // Trigger "TrDie" when the slider matches this group's activation stage
-            foreach (var anim in childAnimators)
-            {
-                if (anim != null && anim.gameObject.activeInHierarchy)
-                {
-                    anim.SetTrigger("TrDie");
-                }
-            }
+            TestBurn();
         }
     }
 }

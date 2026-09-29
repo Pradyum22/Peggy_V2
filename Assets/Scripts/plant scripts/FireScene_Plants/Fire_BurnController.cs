@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Controls burn shader graphs via smooth threshold lerping.
+/// Controls burn shader graphs via smooth threshold lerping, with optional Animator regrowth.
 /// </summary>
 public class Fire_BurnController : MonoBehaviour
 {
@@ -19,8 +19,13 @@ public class Fire_BurnController : MonoBehaviour
     [Header("Transition Settings")]
     public float fadeDuration = 1.5f;
 
+    [Header("Restoration Settings (Native Plants)")]
+    [Tooltip("Check this if this object contains native plants (like 'Flowers') that need to play a grow animation at Stage 4 instead of 'unburning'.")]
+    public bool snapAndRegrowAtStage4 = false;
+
     private Coroutine fadeCoroutine;
     private int propertyID;
+    private Animator[] childAnimators;
 
     private void Awake()
     {
@@ -29,26 +34,75 @@ public class Fire_BurnController : MonoBehaviour
         {
             burnRenderers = GetComponentsInChildren<Renderer>(true);
         }
+        childAnimators = GetComponentsInChildren<Animator>(true);
     }
 
-    // --- KELLY TESTING TOOLS ---
-    public void TestBurn() => TriggerBurnLerp(fullyBurnedValue);
-    public void ResetBurn() => TriggerBurnLerp(unburnedValue);
+    // --- ARTIST TESTING TOOLS ---
+    [ContextMenu("TEST: Trigger Burn")]
+    public void TestBurn() => TriggerBurnLerp(fullyBurnedValue, fadeDuration);
+
+    [ContextMenu("TEST: Reset Burn")]
+    public void ResetBurn() => TriggerBurnLerp(unburnedValue, fadeDuration);
 
     public void OnFireStageUpdate(int stage)
     {
-        // Stage 3 = Controlled Burn. All other stages = Reset/Unburned.
-        float targetValue = (stage == 3) ? fullyBurnedValue : unburnedValue;
-        TriggerBurnLerp(targetValue);
+        if (stage == 3)
+        {
+            // Stage 3: Controlled Burn (Smooth Lerp)
+            TriggerBurnLerp(fullyBurnedValue, fadeDuration);
+        }
+        else if (stage == 4 || stage == 0)
+        {
+            // Stage 4 / 0: Ecosystem Restoration
+            if (snapAndRegrowAtStage4)
+            {
+                // 1. Snap shader instantly so we don't see the reverse burn
+                TriggerBurnLerp(unburnedValue, 0f);
+
+                // 2. Play natural Grow Animation for all child native plants
+                foreach (var anim in childAnimators)
+                {
+                    if (anim != null)
+                    {
+                        anim.gameObject.SetActive(true);
+                        anim.Rebind();
+                        anim.Update(0f);
+                    }
+                }
+            }
+            else
+            {
+                // Default behavior for roots_INV (standard unburn/reset)
+                TriggerBurnLerp(unburnedValue, fadeDuration);
+            }
+        }
+        else
+        {
+            // Stages 1 & 2: Ensure elements remain unburned before the fire hits
+            TriggerBurnLerp(unburnedValue, 0f);
+        }
     }
 
-    private void TriggerBurnLerp(float target)
+    private void TriggerBurnLerp(float target, float duration)
     {
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-        fadeCoroutine = StartCoroutine(FadeBurnThreshold(target));
+
+        if (duration <= 0f)
+        {
+            // Instant snap
+            foreach (var r in burnRenderers)
+            {
+                if (r != null && r.material != null && r.material.HasProperty(propertyID))
+                    r.material.SetFloat(propertyID, target);
+            }
+        }
+        else
+        {
+            fadeCoroutine = StartCoroutine(FadeBurnThreshold(target, duration));
+        }
     }
 
-    private IEnumerator FadeBurnThreshold(float target)
+    private IEnumerator FadeBurnThreshold(float target, float duration)
     {
         if (burnRenderers == null || burnRenderers.Length == 0) yield break;
 
@@ -67,10 +121,10 @@ public class Fire_BurnController : MonoBehaviour
         float startValue = validRenderer.material.GetFloat(propertyID);
         float elapsed = 0f;
 
-        while (elapsed < fadeDuration)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float currentValue = Mathf.Lerp(startValue, target, elapsed / fadeDuration);
+            float currentValue = Mathf.Lerp(startValue, target, elapsed / duration);
 
             foreach (var r in burnRenderers)
             {

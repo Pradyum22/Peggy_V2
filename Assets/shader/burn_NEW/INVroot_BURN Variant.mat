@@ -25,8 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _QueueControl: 0
+    - _burn: 0.01
+    m_Colors:
+    - _burncolor: {r: 1, g: 0.34963012, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6402373467579794470
