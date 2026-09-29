@@ -1,12 +1,16 @@
 using UnityEngine;
 
 /// <summary>
-/// Controls native plants near invasives that die during Stage 1.
-/// Attached to the 'PlantDie' parent container (children dont need it)
+/// Controls native plants near invasives that die during a specific invasion stage.
+/// Attach to the parent container (e.g. PlantDie1 or PlantDie2).
 /// </summary>
 public class Fire_NativePlantDie : MonoBehaviour
 {
     private Animator[] childAnimators;
+
+    [Header("Stage Settings")]
+    [Tooltip("Set to 1 to die with INVADE1, Set to 2 to die with INVADE2")]
+    public int activationStage = 1;
 
     private void Awake()
     {
@@ -47,9 +51,9 @@ public class Fire_NativePlantDie : MonoBehaviour
                 }
             }
         }
-        else if (stage == 1)
+        else if (stage == activationStage)
         {
-            // Stage 1: Invasives Spread -> Trigger "TrDie"
+            // Trigger "TrDie" when the slider matches this group's activation stage
             foreach (var anim in childAnimators)
             {
                 if (anim != null && anim.gameObject.activeInHierarchy)

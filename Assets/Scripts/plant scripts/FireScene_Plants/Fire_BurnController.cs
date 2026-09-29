@@ -10,7 +10,7 @@ public class Fire_BurnController : MonoBehaviour
     public Renderer[] burnRenderers;
 
     [Header("Shader Settings")]
-    public string propertyName = "_threshold";
+    public string propertyName = "_burn";
 
     [Header("Burn Threshold Bounds")]
     public float unburnedValue = 0.009f;

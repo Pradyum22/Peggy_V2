@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SceneTrans : MonoBehaviour
 {
-    #region Singleton
+    /* #region Singleton
     public static SceneController Instance;
 
     void Awake()
@@ -113,7 +113,7 @@ public class SceneTrans : MonoBehaviour
         }
     }
 
-
+    */
 
 
 }

@@ -1293,7 +1293,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "7b1b732323ff4bcab5ebcc1f347502d9",
     "m_Id": 0,
-    "m_DisplayName": "dissolve",
+    "m_DisplayName": "burn",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2198,10 +2198,10 @@
     "m_Guid": {
         "m_GuidSerialized": "e402444a-e480-4684-92b8-74ab0eea30dd"
     },
-    "m_Name": "dissolve",
+    "m_Name": "burn",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "dissolve",
-    "m_DefaultReferenceName": "_dissolve",
+    "m_RefNameGeneratedByDisplayName": "burn",
+    "m_DefaultReferenceName": "_burn",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -2215,7 +2215,7 @@
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.009999999776482582,
-        "y": 0.800000011920929
+        "y": 0.7549999952316284
     }
 }
 
