@@ -7,8 +7,9 @@ public class FireScene: MonoBehaviour
         SceneController.Instance
             .NewTransition()
             .Load(SceneDatabase.Slots.SessionContent, SceneDatabase.Scenes.PlantScene, setActive: true)
-            .Unload(SceneDatabase.Scenes.FireScene)
+            .Unload(SceneDatabase.Scenes.BurnScene)
             .WithOverlay()
+            .WithClearUnusedAssets()
             .Perform();
     }
 
@@ -17,8 +18,9 @@ public class FireScene: MonoBehaviour
         SceneController.Instance
           .NewTransition()
           .Load(SceneDatabase.Slots.Rain, SceneDatabase.Scenes.RainScene)
-          .Unload(SceneDatabase.Scenes.FireScene)
+          .Unload(SceneDatabase.Scenes.BurnScene)
           .WithOverlay()
+          .WithClearUnusedAssets()
           .Perform();
     }
 

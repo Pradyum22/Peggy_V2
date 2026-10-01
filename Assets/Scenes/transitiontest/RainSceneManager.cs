@@ -10,6 +10,7 @@ public class RainSceneManager : MonoBehaviour
             .Unload(SceneDatabase.Slots.Rain)
             .Unload(SceneDatabase.Scenes.RainScene)
             .WithOverlay()
+            .WithClearUnusedAssets()
             .Perform();
     }
 
@@ -17,10 +18,11 @@ public class RainSceneManager : MonoBehaviour
     {
         SceneController.Instance
             .NewTransition()
-            .Load(SceneDatabase.Slots.SessionContent, SceneDatabase.Scenes.FireScene, setActive: true)
+            .Load(SceneDatabase.Slots.SessionContent, SceneDatabase.Scenes.BurnScene, setActive: true)
             .Unload(SceneDatabase.Slots.Rain)
             .Unload(SceneDatabase.Scenes.RainScene)
             .WithOverlay()
+            .WithClearUnusedAssets()
             .Perform();
     }
 }

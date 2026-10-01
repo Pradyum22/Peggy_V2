@@ -6,9 +6,10 @@ public class PlantScene: MonoBehaviour
     {
         SceneController.Instance
             .NewTransition()
-            .Load(SceneDatabase.Slots.SessionContent, SceneDatabase.Scenes.FireScene, setActive: true)
+            .Load(SceneDatabase.Slots.SessionContent, SceneDatabase.Scenes.BurnScene, setActive: true)
             .Unload(SceneDatabase.Scenes.PlantScene)
             .WithOverlay()
+            .WithClearUnusedAssets()
             .Perform();
     }
     public void RainScene()
@@ -18,6 +19,7 @@ public class PlantScene: MonoBehaviour
           .Load(SceneDatabase.Slots.Rain, SceneDatabase.Scenes.RainScene)
           .Unload(SceneDatabase.Scenes.PlantScene)
           .WithOverlay()
+          .WithClearUnusedAssets()
           .Perform();
     }
 
