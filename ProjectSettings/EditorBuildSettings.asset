@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: dbaed92aa2bee084a990ea442c88a03a
-  - enabled: 0
-    path: Assets/Scenes/transitiontest/Rain_Cycle.unity
+  - enabled: 1
+    path: Assets/Scenes/transitiontest/RainScene.unity
     guid: 041f5ee2bd336b141af936d80b43128b
   - enabled: 0
     path: Assets/Scenes/FIREONLY.unity
     guid: 553fabfdaca604d4490ab0f19f075cd1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Final_Scenes/PlantScene.unity
     guid: 23b13dd7fdf70834badec970653e9fdd
   - enabled: 0
@@ -23,6 +23,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Final_Scenes/RainScene.unity
     guid: 49c412d942e31514ca30d568d3fe48fa
+  - enabled: 1
+    path: Assets/Scenes/transitiontest/Core.unity
+    guid: a66184792484c8845b13fd09bac791cc
+  - enabled: 1
+    path: Assets/Scenes/transitiontest/PlantScene.unity
+    guid: 44a7c5c10a8d929498175c1bd1cdb207
+  - enabled: 1
+    path: Assets/Scenes/transitiontest/BurnScene.unity
+    guid: 72dd12bbb2610a84d8b3b122f40f88b6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
