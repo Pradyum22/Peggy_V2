@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Controls burn shaders, smoke VFX, and native plant regrowth for the Fire Cycle.
+/// Controls burn shader graphs via smooth threshold lerping, with optional Animator regrowth.
 /// </summary>
 public class Fire_BurnController : MonoBehaviour
 {
@@ -20,12 +20,8 @@ public class Fire_BurnController : MonoBehaviour
     public float fadeDuration = 1.5f;
 
     [Header("Restoration Settings (Native Plants)")]
-    [Tooltip("Check this if this object contains native plants (like 'Flowers') that need to play a grow animation at Stage 4.")]
+    [Tooltip("Check this if this object contains native plants (like 'Flowers') that need to play a grow animation at Stage 4 instead of 'unburning'.")]
     public bool snapAndRegrowAtStage4 = false;
-
-    [Header("VFX Integration")]
-    [Tooltip("Drag your Smoke Particle Systems here. They will play at Stage 3 and stop at Stage 4.")]
-    public ParticleSystem[] smokeVFX;
 
     private Coroutine fadeCoroutine;
     private int propertyID;
@@ -41,30 +37,29 @@ public class Fire_BurnController : MonoBehaviour
         childAnimators = GetComponentsInChildren<Animator>(true);
     }
 
-    // --- Kelly TESTING TOOLS ---
+    // --- ARTIST TESTING TOOLS ---
     [ContextMenu("TEST: Trigger Burn")]
-    public void TestBurn() => OnFireStageUpdate(3);
+    public void TestBurn() => TriggerBurnLerp(fullyBurnedValue, fadeDuration);
 
     [ContextMenu("TEST: Reset Burn")]
-    public void ResetBurn() => OnFireStageUpdate(0);
+    public void ResetBurn() => TriggerBurnLerp(unburnedValue, fadeDuration);
 
     public void OnFireStageUpdate(int stage)
     {
         if (stage == 3)
         {
-            // Stage 3: Controlled Burn & Smoke
+            // Stage 3: Controlled Burn (Smooth Lerp)
             TriggerBurnLerp(fullyBurnedValue, fadeDuration);
-            foreach (var s in smokeVFX) if (s != null) s.Play();
         }
-        else if (stage == 4)
+        else if (stage == 4 || stage == 0)
         {
-            // Stage 4: Native Prarie Restoration
-            foreach (var s in smokeVFX) if (s != null) s.Stop();
-
+            // Stage 4 / 0: Ecosystem Restoration
             if (snapAndRegrowAtStage4)
             {
-                // Native Plants: Instantly remove burn shader and play grow animation
+                // 1. Snap shader instantly so we don't see the reverse burn
                 TriggerBurnLerp(unburnedValue, 0f);
+
+                // 2. Play natural Grow Animation for all child native plants
                 foreach (var anim in childAnimators)
                 {
                     if (anim != null)
@@ -77,33 +72,13 @@ public class Fire_BurnController : MonoBehaviour
             }
             else
             {
-                // Invasives / Burned Roots: STAY fully burned away while natives regrow!
-                TriggerBurnLerp(fullyBurnedValue, 0f);
-            }
-        }
-        else if (stage == 0)
-        {
-            // Stage 0: Total Reset (Silent)
-            foreach (var s in smokeVFX) if (s != null) s.Stop();
-            TriggerBurnLerp(unburnedValue, 0f);
-
-            if (snapAndRegrowAtStage4)
-            {
-                foreach (var anim in childAnimators)
-                {
-                    if (anim != null)
-                    {
-                        anim.gameObject.SetActive(true);
-                        anim.Rebind();
-                        anim.Update(0f);
-                    }
-                }
+                // Default behavior for roots_INV (standard unburn/reset)
+                TriggerBurnLerp(unburnedValue, fadeDuration);
             }
         }
         else
         {
-            // Stages 1 & 2: Normal unburned state
-            foreach (var s in smokeVFX) if (s != null) s.Stop();
+            // Stages 1 & 2: Ensure elements remain unburned before the fire hits
             TriggerBurnLerp(unburnedValue, 0f);
         }
     }
@@ -114,6 +89,7 @@ public class Fire_BurnController : MonoBehaviour
 
         if (duration <= 0f)
         {
+            // Instant snap
             foreach (var r in burnRenderers)
             {
                 if (r != null && r.material != null && r.material.HasProperty(propertyID))
