@@ -21621,7 +21621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38ece1c03e749a4e8cee83876213156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: ws://75.102.241.189:3000
+  serverUrl: ws://192.168.30.209:3000
   fireController: {fileID: 0}
   butterflyController: {fileID: 0}
   waterController: {fileID: 0}
@@ -33488,6 +33488,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1805678926818636706, guid: 4f2958cf292ba2741978dbce66d0e678, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4937999780134399149, guid: 4f2958cf292ba2741978dbce66d0e678, type: 3}
       propertyPath: m_Name
       value: AmbientSmoke
