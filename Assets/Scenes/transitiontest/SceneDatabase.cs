@@ -15,7 +15,7 @@ public class SceneDatabase
     {
         public const string RainScene = "RainScene";
         public const string PlantScene = "PlantScene";
-        public const string BurnScene = "BurnScene";
+        public const string FireScene = "FireScene";
         public const string Session = "Session";
     }
 }
