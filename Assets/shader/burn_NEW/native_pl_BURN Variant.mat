@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: -876546973899608171, guid: a0cff91339138f240baab342ef041465, type: 3}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -29,7 +30,7 @@ Material:
     - _QueueControl: 0
     - _burn: 0.01
     m_Colors:
-    - _burncolor: {r: 1, g: 0.05213013, b: 0, a: 0}
+    - _burncolor: {r: 1, g: 0.26682043, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8201936796559852826
@@ -44,4 +45,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 9
+  version: 10
