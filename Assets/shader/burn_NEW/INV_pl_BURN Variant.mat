@@ -28,8 +28,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _QueueControl: 0
-    - _burn: 0.01
+    - _burn: 0.001
     - _dissolve: 0.01
+    - _emission_num: 0.1
+    - _noise_num: 90
     m_Colors:
     - _burncolor: {r: 1, g: 0.37736046, b: 0, a: 0}
   m_BuildTextureStacks: []
