@@ -14,12 +14,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/FIREONLY.unity
     guid: 553fabfdaca604d4490ab0f19f075cd1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Final_Scenes/PlantScene.unity
     guid: 23b13dd7fdf70834badec970653e9fdd
   - enabled: 0
     path: Assets/Scenes/Final_Scenes/FireScene.unity
-    guid: 771bd75e7e84e254b9a1a49649e9db41
+    guid: 48a613c6cab5b3d46b3815f491e6e651
   - enabled: 0
     path: Assets/Scenes/Final_Scenes/RainScene.unity
     guid: 49c412d942e31514ca30d568d3fe48fa
