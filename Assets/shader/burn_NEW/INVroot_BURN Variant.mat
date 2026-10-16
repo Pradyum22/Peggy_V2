@@ -29,7 +29,8 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _burn: 0.01
-    - _threshold: 1
+    - _noise_num: 50
+    - _threshold: 0.985
     m_Colors:
     - _burncolor: {r: 1, g: 0, b: 0.045583606, a: 0}
   m_BuildTextureStacks: []

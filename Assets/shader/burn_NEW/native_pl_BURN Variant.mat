@@ -29,9 +29,10 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _burn: 0.001
-    - _noise_num: 100
+    - _emission_num: 0.1
+    - _noise_num: 60
     m_Colors:
-    - _burncolor: {r: 1, g: 0, b: 0.06296933, a: 0}
+    - _burncolor: {r: 1, g: 0, b: 0.32273304, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8201936796559852826
