@@ -6,7 +6,7 @@ public class AnimatorController : MonoBehaviour
     private void Awake()
     {
         // Adding FindObjectsSortMode.None is the fastest and standard replacement
-        Animators = Object.FindObjectsByType<Animator>(FindObjectsSortMode.None);
+        Animators = Object.FindObjectsByType<Animator>(FindObjectsInactive.Include); 
     }
 
 

@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
@@ -23,11 +20,26 @@ public class SceneController : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private LoadingOverlay loadingOverlay;
+    [SerializeField] private BaseTransitionEffect transitionEffect;
 
     private Dictionary<string, string> loadedSceneBySlot = new();
-
     private bool isBusy = false;
+
+    public string CurrentActiveScene { get; private set; } = "";
+
+    // Convenience method for UI buttons and WebSocket commands
+    public void SwitchToScene(string targetSceneName)
+    {
+        if (CurrentActiveScene == targetSceneName || isBusy) return;
+
+        CurrentActiveScene = targetSceneName;
+
+        NewTransition()
+            .Load(SceneDatabase.Slots.SessionContent, targetSceneName, setActive: true)
+            .WithOverlay()
+            .WithClearUnusedAssets()
+            .Perform();
+    }
 
     // API
     public SceneTransitionPlan NewTransition()
@@ -44,22 +56,27 @@ public class SceneController : MonoBehaviour
         }
         isBusy = true;
         return StartCoroutine(ChangeSceneRoutine(plan));
-
     }
+
     private IEnumerator ChangeSceneRoutine(SceneTransitionPlan plan)
     {
-        if (plan.Overlay)
+        // 1. Play transition effect (Fade, Butterfly VFX, etc.)
+        if (plan.Overlay && transitionEffect != null)
         {
-            yield return loadingOverlay.FadeInBlack();
-            yield return new WaitForSeconds(0.5f);
+            yield return transitionEffect.CoverScreen();
+            yield return new WaitForSeconds(0.2f);
         }
+
+        // 2. Unload requested scenes
         foreach (var slotKey in plan.ScenesToUnload)
         {
             yield return UnloadSceneRoutine(slotKey);
         }
+
         if (plan.ClearUnusedAssets) yield return CleanupUnusedAssetsRoutine();
 
-    foreach (var kvp in plan.ScenesToLoad)
+        // 3. Load incoming scenes (automatically unloads previous occupant of that slot)
+        foreach (var kvp in plan.ScenesToLoad)
         {
             if (loadedSceneBySlot.ContainsKey(kvp.Key))
             {
@@ -67,16 +84,21 @@ public class SceneController : MonoBehaviour
             }
             yield return LoadAdditiveRoutine(kvp.Key, kvp.Value, plan.ActiveSceneName == kvp.Value);
         }
-        if (plan.Overlay)
+
+        // 4. Reveal the new scene
+        if (plan.Overlay && transitionEffect != null)
         {
-            yield return loadingOverlay.FadeOutBlack();
+            yield return transitionEffect.RevealScreen();
         }
+
         isBusy = false;
     }
+
     private IEnumerator LoadAdditiveRoutine(string slotKey, string sceneName, bool setActive)
     {
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         if (loadOp == null) yield break;
+
         loadOp.allowSceneActivation = false;
         while (loadOp.progress < 0.9f)
         {
@@ -88,6 +110,7 @@ public class SceneController : MonoBehaviour
         {
             yield return null;
         }
+
         if (setActive)
         {
             Scene newScene = SceneManager.GetSceneByName(sceneName);
@@ -101,9 +124,10 @@ public class SceneController : MonoBehaviour
 
     private IEnumerator UnloadSceneRoutine(string slotKey)
     {
-        if (!loadedSceneBySlot.TryGetValue(slotKey, out string SceneName)) yield break;
-        if (string.IsNullOrEmpty(SceneName)) yield break;
-        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(SceneName);
+        if (!loadedSceneBySlot.TryGetValue(slotKey, out string sceneName)) yield break;
+        if (string.IsNullOrEmpty(sceneName)) yield break;
+
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
         if (unloadOp != null)
         {
             while (!unloadOp.isDone)
@@ -126,13 +150,9 @@ public class SceneController : MonoBehaviour
     public class SceneTransitionPlan
     {
         public Dictionary<string, string> ScenesToLoad { get; } = new();
-
         public List<string> ScenesToUnload { get; } = new();
-
         public string ActiveSceneName { get; private set; } = "";
-
         public bool ClearUnusedAssets { get; private set; } = false;
-
         public bool Overlay { get; private set; } = false;
 
         public SceneTransitionPlan Load(string slotKey, string sceneName, bool setActive = false)
@@ -165,8 +185,4 @@ public class SceneController : MonoBehaviour
             return SceneController.Instance.ExecutePlan(this);
         }
     }
-
 }
-
-
-

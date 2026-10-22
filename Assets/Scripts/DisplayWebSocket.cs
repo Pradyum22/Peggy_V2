@@ -99,6 +99,21 @@ public class DisplayWebSocket : MonoBehaviour
 
         await ws.Connect();
     }
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        // Automatically grab the new controllers every time a scene transition finishes
+        CacheSceneControllers();
+    }
 
     // =========================================================
     // CACHE CONTROLLERS METHOD
@@ -119,32 +134,32 @@ public class DisplayWebSocket : MonoBehaviour
         fireNativeDies.Clear();
         fireBurnControllers.Clear();
 
-        
 
-        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+
+        nativePlants.AddRange(FindObjectsByType<nativePlant>(FindObjectsInactive.Include));
+        rattlePlants.AddRange(FindObjectsByType<rattleSnakeMaster>(FindObjectsInactive.Include));
+        rootStatics.AddRange(FindObjectsByType<root_static>(FindObjectsInactive.Include));
+        rootGrowDies.AddRange(FindObjectsByType<root3_growdie>(FindObjectsInactive.Include));
 
         //For Butterflies
-        butterflyController = FindFirstObjectByType<ButterflyController>();
+        butterflyController = FindAnyObjectByType<ButterflyController>();
 
         //FireScene
-        fireInvasives.AddRange(FindObjectsByType<Fire_InvasivePlant>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        fireNativeDies.AddRange(FindObjectsByType<Fire_NativePlantDie>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        fireBurnControllers.AddRange(FindObjectsByType<Fire_BurnController>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        fireInvasives.AddRange(FindObjectsByType<Fire_InvasivePlant>(FindObjectsInactive.Include));
+        fireNativeDies.AddRange(FindObjectsByType<Fire_NativePlantDie>(FindObjectsInactive.Include));
+        fireBurnControllers.AddRange(FindObjectsByType<Fire_BurnController>(FindObjectsInactive.Include));
 
         // Auto-detect the shader root controller
-        invasiveRootShaderControllers.AddRange(FindObjectsByType<InvasiveRootController>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+        invasiveRootShaderControllers.AddRange(FindObjectsByType<InvasiveRootController>(FindObjectsInactive.Include));
 
-        rainController = FindFirstObjectByType<RainController>();
+        rainController = FindAnyObjectByType<RainController>();
         puddleController = FindAnyObjectByType<PuddleController>();
-        fireController = FindFirstObjectByType<FireController>();
-        butterflyController = FindFirstObjectByType<ButterflyController>();
-        waterController = FindFirstObjectByType<WaterLevelController>();
-        wormController = FindFirstObjectByType<WormController>();
-        skyController = FindFirstObjectByType<SkyController>();
-        grassController = FindFirstObjectByType<Texture_Change>();
+        fireController = FindAnyObjectByType<FireController>();
+        butterflyController = FindAnyObjectByType<ButterflyController>();
+        waterController = FindAnyObjectByType<WaterLevelController>();
+        wormController = FindAnyObjectByType<WormController>();
+        skyController = FindAnyObjectByType<SkyController>();
+        grassController = FindAnyObjectByType<Texture_Change>();
     }
 
     private void DispatchByFactor(string factor, int value)
@@ -154,6 +169,9 @@ public class DisplayWebSocket : MonoBehaviour
         // DEFAULT behavior (backwards compatibility)
         if (string.IsNullOrEmpty(factor))
         {
+            // ADDED: Fallback transition to Plant scene for older slider formats
+            SceneController.Instance.SwitchToScene(SceneDatabase.Scenes.PlantScene);
+
             DispatchPlants(value);
             return;
         }
@@ -161,6 +179,9 @@ public class DisplayWebSocket : MonoBehaviour
         switch (factor)
         {
             case "fire":
+                // ADDED: Trigger scene transition when Fire tab/slider is interacted with
+                SceneController.Instance.SwitchToScene(SceneDatabase.Scenes.FireScene);
+
                 // Route fire stage (0-4) to dedicated fire controllers
                 foreach (var p in fireInvasives) if (p != null) p.OnFireStageUpdate(value);
                 foreach (var p in fireNativeDies) if (p != null) p.OnFireStageUpdate(value);
@@ -171,10 +192,16 @@ public class DisplayWebSocket : MonoBehaviour
                 break;
 
             case "flowers":
+                // ADDED: Trigger scene transition when Plant Diversity tab/slider is interacted with
+                SceneController.Instance.SwitchToScene(SceneDatabase.Scenes.PlantScene);
+
                 DispatchPlants(value);
                 break;
 
             case "rain":
+                // ADDED: Trigger scene transition when Rainfall tab/slider is interacted with
+                SceneController.Instance.SwitchToScene(SceneDatabase.Scenes.RainScene);
+
                 Debug.Log($"Factor = {factor}, Value = {value}");
 
                 if (rainController != null)
